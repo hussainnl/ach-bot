@@ -7,7 +7,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: docker image ls | echo
-      - run: ls
+      - run: ls ../
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v5
