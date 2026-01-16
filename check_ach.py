@@ -8,7 +8,7 @@ class CheckAchievement:
         self.week_keywords = ["الأسبوع", "الاسبوع", "أسبوع", "اسبوع", "الأسبوعي", "الاسبوعي", "أسبوعي", "اسبوعي"]
         
     def check_achievement(self,massage,points):
-        if points == 70:
+        if points >= 70:
             keywords = self.week_keywords
         else:
             keywords = self.study_keywords

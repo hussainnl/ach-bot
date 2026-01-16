@@ -11,19 +11,26 @@ load_dotenv()
 DOCUMENT_ID = os.getenv("DOCUMENT_ID")
 
 async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    
+    user_id = update.effective_user.id
     chat_id = update.effective_chat.id    
-    study_topic_id = BS().get_study_topic_id(chat_id)
+    DB().check_user_id(user_id,chat_id)
+    study_topic_id = [BS().get_study_topic_id(chat_id)]
     weekly_topic_id = BS().get_weekly_topic_id(chat_id)
-    logging.info(f"study_topic_id{study_topic_id}")
-    if update.message.message_thread_id is study_topic_id:
-        points  = 8
+    monitoring_topic_id = update.message.message_thread_id
+    
+    if monitoring_topic_id in study_topic_id:
+        logging.info(f"study_topic_id start")
+        points  = 7
         await submit_achievement(update, context,points)
-        await update.message.reply_text("الانجاز الدراسي")
-    elif update.message.message_thread_id is weekly_topic_id:
-         points = 70
-         await submit_achievement(update, context,points)
-         await update.message.reply_text("الانجاز الأسبوعي")
+    elif monitoring_topic_id is weekly_topic_id:
+        logging.info(f"weekly_topic_id start")
+        user_mode = DB().get_mode(user_id,chat_id)
+        if user_mode == 0 :
+            points = 70
+        elif user_mode == 1:
+            points = 140
+        await submit_achievement(update, context,points)
+
 
 async def new_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
@@ -32,12 +39,13 @@ async def new_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,points) -> None:
+    logging.info(f"submit_achievement start")
     user_id = update.effective_user.id
     chat_id = update.effective_chat.id
     text = update.message.text
     if CheckAchievement().check_achievement(update.message.text,points):
         DB().check_user_id(user_id, chat_id)
-        
+        logging.info(f"CheckAchievement start")
         if DB().get_missed(user_id, chat_id) > 0 or points < 70:
             DB().update_user_count(user_id, chat_id, points)
             user_scor = DB().state_count(user_id, chat_id)

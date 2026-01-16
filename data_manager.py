@@ -16,7 +16,7 @@ class Data_Manager:
         self.cur = self.con.cursor()
     def make_new_table(self):
         logging.info(f"Data_Manager().make_new_table() start")
-        self.cur.execute("CREATE TABLE IF NOT EXISTS  user_state(chat_id, user_id, score, missed, is_subscribed)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS  user_state(chat_id, user_id, score, missed, is_subscribed ,user_mode)")
         logging.info('Data_Manager().make_new_table() done')
         self.con.commit()
 
@@ -35,10 +35,11 @@ class Data_Manager:
         """To add a new user to the database"""
         logging.info(f"add_new_user start")
         score = 0
-        missed = 0
-        is_subscribed = False
-        self.cur.execute("""INSERT INTO user_state(chat_id, user_id, score, missed, is_subscribed)
-                          VALUES(?, ?, ?, ? ,?)""", (chat_id, user_id, score, missed, is_subscribed))
+        missed = 1
+        is_subscribed = 0
+        user_mode = 0
+        self.cur.execute("""INSERT INTO user_state(chat_id, user_id, score, missed, is_subscribed,user_mode)
+                          VALUES(?, ?, ?, ?, ?, ?)""", (chat_id, user_id, score, missed, is_subscribed, user_mode))
         self.con.commit()  # Remember to commit the transaction after executing INSERT.
         logging.info(f"add_new_user done")
 
@@ -71,6 +72,16 @@ class Data_Manager:
         self.con.commit()
         logging.info(f"update_user_subscription done")
 
+    def update_user_mode(self,user_id, chat_id,user_mode):
+        """To add a new user to the database"""
+        logging.info(f"update_user_mode start")
+        self.cur.execute("""
+        UPDATE user_state
+        SET user_mode = ?
+        WHERE user_id = ? AND chat_id = ?
+        """, (user_mode, user_id, chat_id))
+        self.con.commit()
+        logging.info(f"update_user_mode done")
 
     def update_user_missed(self,user_id,chat_id,):
         """To update the user missed score"""
@@ -109,6 +120,22 @@ class Data_Manager:
         logging.info(f"get_missed done")
         return user_missed
     
+    def get_mode(self,user_id, chat_id):
+        """To get the user mode status"""
+        logging.info(f"get_missed start")
+        mode = self.cur.execute("SELECT user_mode FROM user_state WHERE user_id = ? AND chat_id = ?", (user_id, chat_id,))
+        user_mode = mode.fetchone()[0]
+        logging.info(f"get_missed done")
+        return user_mode
+    
+
+    def get_subscription_status(self, chat_id):
+        """To get the subscription status of the users"""
+        logging.info(f"get_subscription_status start")
+        subscription_status = self.cur.execute("SELECT user_id FROM user_state WHERE is_subscribed != 0 AND chat_id = ?", (chat_id,))
+        users_subscription_status = subscription_status.fetchall()
+        logging.info(f"get_subscription_status done")
+        return users_subscription_status       
     def check_user_id(self,user_id, chat_id):
         """To check if the user is in the database"""
         logging.info(f"check_user_id start")
@@ -165,6 +192,9 @@ class Bot_Setting(Data_Manager):
         logging.info(f"add_study_topic_id start")
         res = self.cur.execute("SELECT monitoring_topic FROM bot_setting WHERE chat_id = ?",(chat_id,)).fetchone()[0]
         srt_digit =  res.split(",")
+        logging.info(f"study_topic_id {srt_digit}")
+
+
         weekly_id = int(srt_digit[1][:-1])
         digit = (int(monitoring_topic_id),int(weekly_id))
         study_id = str(digit)

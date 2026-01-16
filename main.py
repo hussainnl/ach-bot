@@ -1,4 +1,4 @@
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters , CallbackQueryHandler
 from data_manager import Data_Manager as DB , Bot_Setting as BS
 import os
 from commands.set_group import set_group
@@ -9,7 +9,8 @@ from commands.massage_handler import monitoring_topic , new_user
 from commands.state import state
 from commands.set_timer import set_timer
 from commands.restart_missed import restart_missed
-from commands.start import start
+from commands.start import start 
+from commands.chanage_mode import chanage_mode , button_handler
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 import logging
 
@@ -35,9 +36,11 @@ app.add_handler(CommandHandler("weekly_monitoring_topic", weekly_monitoring_topi
 app.add_handler(CommandHandler("set_notification_topic", set_notification_topic))
 app.add_handler(CommandHandler('set_rules_topic', set_rules_topic))
 app.add_handler(CommandHandler('restart_missed', restart_missed))
+app.add_handler(CommandHandler('chanage_mode', chanage_mode))
 app.add_handler(CommandHandler('state', state))
 app.add_handler(MessageHandler(filters.ChatType.GROUPS & filters.StatusUpdate.NEW_CHAT_MEMBERS, new_user))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, monitoring_topic))
+app.add_handler(CallbackQueryHandler(button_handler))
 app.add_handler(CommandHandler('set_timer', set_timer))
 
 

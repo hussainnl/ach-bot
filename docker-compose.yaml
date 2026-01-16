@@ -1,0 +1,20 @@
+name: bot_test
+
+services:
+  bot:
+    build: .
+    container_name: bot_test_cnt
+    env_file:
+      - ./.env
+    secrets:
+      - bot_credentials
+      - bot_token
+    volumes:
+      - ./user_bot.db:/ach_bot/user_bot.db
+secrets:
+  bot_token:
+    file: token.json
+  bot_credentials:
+    file: credentials.json
+
+  
