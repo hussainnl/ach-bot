@@ -6,7 +6,7 @@ jobs:
   build_bot:
     runs-on: self-hosted
     steps:
-      - run: docker image ls | echo
+      - run: docker image ls 
       - run: ls ../
       - run: echo "$USER🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
