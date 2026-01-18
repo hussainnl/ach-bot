@@ -8,7 +8,7 @@ jobs:
     steps: 
       - name: Check out repository code
         uses: actions/checkout@v5
-      - run: docker compose  -f /home/marshall/ach_test/docker-compose.yaml down
-      - run: docker compose  -f /home/marshall/ach_test/docker-compose.yaml up -d
+      - run: docker compose   down
+      - run: docker compose   up -d
 
 
