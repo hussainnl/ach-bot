@@ -57,32 +57,30 @@ async def check_2(context: ContextTypes.DEFAULT_TYPE):
 
 async def set_timer(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
-    user_id = update.effective_user.id
-    if await is_admin(update, context, user_id):                       
-        context.job_queue.run_daily(                        
-            weekly_check,            
-            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(5,),  
-            name=str(chat_id),                   
-            chat_id=chat_id,          
+    
+                      
+    context.job_queue.run_daily(                        
+        weekly_check,            
+        time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+        days=(5,),  
+        name=str(chat_id),                   
+        chat_id=chat_id,          
         )  
-        context.job_queue.run_daily(                        
-            check_1,            
-            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(1,),  
-            name=str(chat_id),                   
-            chat_id=chat_id,          
+    context.job_queue.run_daily(                        
+        check_1,            
+        time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+        days=(1,),  
+        name=str(chat_id),                   
+        chat_id=chat_id,          
          
         )
-        context.job_queue.run_daily(                        
-            check_2,            
-            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(4,),  
-            name=str(chat_id),                   
-            chat_id=chat_id,          
+    context.job_queue.run_daily(                        
+        check_2,            
+        time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+        days=(4,),  
+        name=str(chat_id),                   
+        chat_id=chat_id,          
         )  
   
-        await update.message.reply_text("تم تفعيل التذكير الأسبوعي ✅")
-        logging.info(f"set_timer done")
-    else:
-        await update.message.reply_text("❌ ليس لديك صلاحية")
+    await update.message.reply_text("تم تفعيل التذكير الأسبوعي ✅")
+    logging.info(f"set_timer done")
