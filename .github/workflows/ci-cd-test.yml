@@ -5,15 +5,9 @@ on: [push]
 jobs:
   build_bot:
     runs-on: self-hosted
-    steps:
-      - run: docker image ls 
-      - run: docker compose  -f /home/marshall/ach_test/docker-compose.yaml up -d
-      - run: echo "$USER🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+    steps: 
       - name: Check out repository code
         uses: actions/checkout@v5
-      - run: pwd
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: docker compose  -f /home/marshall/ach_test/docker-compose.yaml up -d
+
+
