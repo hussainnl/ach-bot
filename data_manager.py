@@ -186,6 +186,15 @@ class Bot_Setting(Data_Manager):
         if chat_id not in set(groups_ids) or groups_ids == []:   
             self.add_new_group(chat_id)
         logging.info(f"check_group_id done")
+        
+    def get_group_ids(self):
+        """to get the group ids in which the bot is set"""   
+        res = self.cur.execute("SELECT chat_id FROM bot_setting")
+        groups_ids = []
+        for id in res.fetchall():
+            id[0]    
+            groups_ids.append(id[0]) 
+        return groups_ids
 
     def add_study_topic_id(self,monitoring_topic_id, chat_id,):
         """To add a new user to the database""" 
