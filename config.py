@@ -2,9 +2,7 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 CREDS = os.getenv("CREDS")
 TOKEN = os.getenv("TOKEN")
 SCOPE = os.getenv("SCOPES")

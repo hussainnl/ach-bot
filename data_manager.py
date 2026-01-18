@@ -1,9 +1,7 @@
 import sqlite3
 import os
-from dotenv import load_dotenv
 import logging
 
-load_dotenv()  # يقرأ .env
 DB = os.getenv("DB")
 class Data_Manager:
 
@@ -186,7 +184,7 @@ class Bot_Setting(Data_Manager):
         if chat_id not in set(groups_ids) or groups_ids == []:   
             self.add_new_group(chat_id)
         logging.info(f"check_group_id done")
-        
+
     def get_group_ids(self):
         """to get the group ids in which the bot is set"""   
         res = self.cur.execute("SELECT chat_id FROM bot_setting")
