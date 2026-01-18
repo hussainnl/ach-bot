@@ -52,6 +52,7 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
             DB().update_user_missed(user_id, chat_id)
            
             message = (
+            "اي تغيير في الكود بيتم فعلاً بعد البوش"
             f"تم تسجيل إنجازك بنجاح 🏆\n"
             f"حصلت على {points} نقاط جديدة!🌟\n\n"
             f"✨ إجمالي نقاطك الآن: {user_scor} ✨")
@@ -81,3 +82,4 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
             "🔹 كلمة *الدراسي* أو\n"
             "🔹 كلمة *دراسي* لوحدها."
         )
+
