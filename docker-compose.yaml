@@ -5,7 +5,7 @@ services:
     build: .
     container_name: bot_test_cnt
     env_file:
-      - ./.env
+      - /home/marshall/ach_test/.env
     secrets:
       - bot_credentials
       - bot_token
@@ -13,8 +13,8 @@ services:
       - ./user_bot.db:/ach_bot/user_bot.db
 secrets:
   bot_token:
-    file: token.json
+    file: /home/marshall/ach_test/token.json
   bot_credentials:
-    file: credentials.json
+    file: /home/marshall/ach_test/credentials.json
 
   
