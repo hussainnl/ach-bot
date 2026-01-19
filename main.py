@@ -1,4 +1,4 @@
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters , CallbackQueryHandler
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters , CallbackQueryHandler 
 from data_manager import Data_Manager as DB , Bot_Setting as BS
 import os
 from commands.set_group import set_group
@@ -24,9 +24,11 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 DB().make_new_table()
 BS().make_new_table()
+group_ids = BS().get_group_ids()
 
 
-app = ApplicationBuilder().token(BOT_TOKEN).build()
+
+app = ApplicationBuilder().token(BOT_TOKEN).post_init(set_timer).build()
 
 
 app.add_handler(CommandHandler("start", start))
