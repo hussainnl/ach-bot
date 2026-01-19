@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes ,Application
-from data_manager import Data_Manager as DM
+from data_manager import Data_Manager as DM ,Bot_Setting as BS
 from utils import is_admin
 import  datetime
 from zoneinfo import ZoneInfo
@@ -52,32 +52,32 @@ async def check_2(context: ContextTypes.DEFAULT_TYPE):
         if missed != 0 :     
             await context.bot.send_message(user_id,msg_user)
 
-async def set_timer(application:Application,chat_id):
+async def set_timer(application:Application):
     
-    
-                    
-    application.job_queue.run_daily(                        
-        weekly_check,            
-        time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-        days=(5,),  
-        name=str(chat_id),                   
-        chat_id=chat_id,
-        data=chat_id,          
-        )  
-    application.job_queue.run_daily(                        
-        check_1,            
-        time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-        days=(1,),  
-        name=str(chat_id),                   
-        chat_id=chat_id,          
-        data=chat_id,   
-        )
-    application.job_queue.run_daily(                        
-        check_2,            
-        time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-        days=(4,),  
-        name=str(chat_id),                   
-        chat_id=chat_id,
-        data=chat_id,            
-        )  
-    logging.info(f"set_timer done")
+    group_ids = BS().get_group_ids()  
+    for chat_id in  group_ids :           
+        application.job_queue.run_daily(                        
+            weekly_check,            
+            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(5,),  
+            name=str(chat_id),                   
+            chat_id=chat_id,
+            data=chat_id,          
+            )  
+        application.job_queue.run_daily(                        
+            check_1,            
+            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(1,),  
+            name=str(chat_id),                   
+            chat_id=chat_id,          
+            data=chat_id,   
+            )
+        application.job_queue.run_daily(                        
+            check_2,            
+            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(4,),  
+            name=str(chat_id),                   
+            chat_id=chat_id,
+            data=chat_id,            
+            )  
+        logging.info(f"set_timer done")
