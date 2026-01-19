@@ -24,9 +24,6 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 DB().make_new_table()
 BS().make_new_table()
-group_ids = BS().get_group_ids()
-
-
 
 app = ApplicationBuilder().token(BOT_TOKEN).post_init(set_timer).build()
 
