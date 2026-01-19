@@ -1,4 +1,5 @@
-from google.oauth2.credentials import Credentials
+from google.oauth2.credentials import Credentials 
+from google.oauth2 import service_account 
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import os
@@ -20,15 +21,15 @@ class Configuration:
         دالة المصادقة الموحدة (تعمل مع Drive و Gmail)
         """
         try:
-            creds = None
-            if not creds or not creds.valid:
-                if creds and creds.expired and creds.refresh_token:
-                    creds.refresh(Request())
-                else:
-                    # تذكر حذف token.json بعد تغيير الـ SCOPES
-                    flow = InstalledAppFlow.from_client_secrets_file(
-                        CREDS, SCOPES)
-                    creds = flow.run_local_server(port=0)
+            creds = creds = service_account.Credentials.from_service_account_file(CREDS,SCOPES)
+            # if not creds or not creds.valid:
+            #     if creds and creds.expired and creds.refresh_token:
+            #         creds.refresh(Request())
+            #     else:
+            #         # تذكر حذف token.json بعد تغيير الـ SCOPES
+            #         flow = InstalledAppFlow.from_client_secrets_file(
+            #             CREDS, SCOPES)
+            #         creds = flow.run_local_server(port=0)
             return creds
         except TypeError as e :
             logging.info(f"TypeError {e}")
