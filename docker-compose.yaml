@@ -8,7 +8,6 @@ services:
       - /home/marshall/ach_test/.env
     secrets:
       - bot_credentials
-      - bot_token
     volumes:
       - /home/marshall/ach_test/user_bot.db:/ach_bot/user_bot.db
       - /home/marshall/ach_test/:/ach_bot/token.json
