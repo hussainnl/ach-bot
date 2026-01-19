@@ -5,9 +5,8 @@ from check_ach import CheckAchievement
 from doc_register import doc_register
 import logging
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+
 DOCUMENT_ID = os.getenv("DOCUMENT_ID")
 
 async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
