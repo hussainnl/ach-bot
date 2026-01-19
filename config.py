@@ -21,7 +21,7 @@ class Configuration:
         دالة المصادقة الموحدة (تعمل مع Drive و Gmail)
         """
         try:
-            creds = creds = service_account.Credentials.from_service_account_file(CREDS,SCOPES)
+            creds = service_account.Credentials.from_service_account_file(CREDS,SCOPES)
             # if not creds or not creds.valid:
             #     if creds and creds.expired and creds.refresh_token:
             #         creds.refresh(Request())
