@@ -21,8 +21,6 @@ class Configuration:
         """
         try:
             creds = None
-            if os.path.exists(TOKEN):
-                creds = Credentials.from_authorized_user_file(TOKEN, SCOPES)
             if not creds or not creds.valid:
                 if creds and creds.expired and creds.refresh_token:
                     creds.refresh(Request())
@@ -31,8 +29,6 @@ class Configuration:
                     flow = InstalledAppFlow.from_client_secrets_file(
                         CREDS, SCOPES)
                     creds = flow.run_local_server(port=0)
-                with open(TOKEN, 'w') as token:
-                    token.write(creds.to_json())
             return creds
         except TypeError as e :
             logging.info(f"TypeError {e}")
