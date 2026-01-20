@@ -1,7 +1,9 @@
 name: ci\cd_test
 
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on: 
+    push:
+      branches: [ test ]
 jobs:
   build_bot:
     runs-on: self-hosted
