@@ -1,9 +1,9 @@
-name: bot_test
+name: ach_bot
 
 services:
   bot:
     build: .
-    container_name: bot_test_cnt
+    container_name: ach_bot
     env_file:
       - /home/marshall/ach_test/.env
     secrets:
