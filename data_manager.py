@@ -126,6 +126,14 @@ class Data_Manager:
         logging.info(f"get_missed done")
         return user_mode
     
+    def get_ban_users(self):
+        """To get users to be banned"""
+        res = self.cur.execute("SELECT missed FROM user_state WHERE ( user_mode = 1 AND missed = 2 ) OR missed = 4")
+        banned_ids = []
+        for id in res.fetchall():
+            id[0]    
+            banned_ids.append(id[0]) 
+        return banned_ids
 
     def get_subscription_status(self, chat_id):
         """To get the subscription status of the users"""
@@ -133,7 +141,8 @@ class Data_Manager:
         subscription_status = self.cur.execute("SELECT user_id FROM user_state WHERE is_subscribed != 0 AND chat_id = ?", (chat_id,))
         users_subscription_status = subscription_status.fetchall()
         logging.info(f"get_subscription_status done")
-        return users_subscription_status       
+        return users_subscription_status 
+          
     def check_user_id(self,user_id, chat_id):
         """To check if the user is in the database"""
         logging.info(f"check_user_id start")
