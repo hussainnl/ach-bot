@@ -17,27 +17,6 @@ COLLATE utf8mb4_unicode_ci;
 
 USE ach_bot_db;
 
--- Table user_info
-DROP TABLE IF EXISTS user_info;
-CREATE TABLE IF NOT EXISTS user_info (
-  user_id BIGINT NOT NULL , 
-  user_name VARCHAR(128) NOT NULL,
-  score INT
-  DEFAULT 0,
-  missed TINYINT(5)
-  DEFAULT 0 ,
-  is_subscribed  TINYINT(1)
-  DEFAULT 0,
-  mode TINYINT(1)
-  DEFAULT 0,
-  PRIMARY KEY (user_id),
-  UNIQUE INDEX  unq_username (user_name) ,
-  INDEX  idx_sorce (score),
-  INDEX  idx_missed (missed)
- 
-);
-
-
 -- Table group_info
 DROP TABLE IF EXISTS group_info;
 CREATE TABLE group_info (
@@ -55,23 +34,31 @@ CREATE TABLE group_info (
   UNIQUE  unq_group_name (group_name) 
 );
 
--- Table group_user
-DROP TABLE IF EXISTS group_user;
-CREATE TABLE group_user (
-  user_id BIGINT NOT NULL,
+-- Table user_info
+DROP TABLE IF EXISTS user_info;
+CREATE TABLE IF NOT EXISTS user_info (
+  user_id BIGINT NOT NULL ,
   group_id BIGINT NOT NULL,
-  PRIMARY KEY (user_id, group_id),
-  CONSTRAINT fk_group_user_user
-    FOREIGN KEY (user_id)
-    REFERENCES user_info (user_id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT fk_group_user_group
+  user_name VARCHAR(128) NOT NULL,
+  score INT
+  DEFAULT 0,
+  missed TINYINT(5)
+  DEFAULT 0 ,
+  is_subscribed  TINYINT(1)
+  DEFAULT 0,
+  mode TINYINT(1)
+  DEFAULT 0,
+  PRIMARY KEY (user_id),
+  UNIQUE INDEX  unq_username (user_name) ,
+  INDEX  idx_sorce (score),
+  INDEX  idx_missed (missed),
+  CONSTRAINT fk_group_id
     FOREIGN KEY (group_id)
     REFERENCES group_info (group_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
+
 
 
 -- Table message
