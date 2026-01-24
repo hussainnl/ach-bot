@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS user_info (
   score INT
   DEFAULT 0,
   missed TINYINT(5)
-  DEFAULT 0 ,
+  DEFAULT 1 ,
   is_subscribed  TINYINT(1)
   DEFAULT 0,
   mode TINYINT(1)
