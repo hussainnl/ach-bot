@@ -15,4 +15,7 @@ secrets:
   bot_credentials:
     file: /home/marshall/ach_test/credentials.json
 
-  
+networks:
+  nawah:
+    external: true 
+      
