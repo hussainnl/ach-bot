@@ -46,7 +46,7 @@ class User :
         """To add a new user to the database"""
         logging.info(f"start add_user")
         with self.con.cursor() as cur:
-            cur.execute("""INSERT INTO user_info(user_id, user_name)
+            cur.execute("""INSERT INTO user_info(user_id,group_id, user_name)
                           VALUES(%s, %s, %s)""", (user_id, group_id,user_name))
             self.con.commit()
         logging.info(f"add_user done")
