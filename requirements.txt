@@ -4,4 +4,4 @@ protobuf==6.32.1
 python-telegram-bot==22.4
 Telethon==1.40.0
 APScheduler==3.11.0
-pymysql==1.4
+pymysql
