@@ -4,7 +4,7 @@ import logging
 
 class User :
 
-    def __init__(self,config):
+    def __init__(self):
         self.config = Config().data
         self.con = None
 
