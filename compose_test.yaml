@@ -11,6 +11,9 @@ services:
     volumes:
       - /home/marshall/ach_test/user_bot.db:/ach_bot/user_bot.db
       - /home/marshall/ach_test/token.json:/ach_bot/token.json
+    networks:
+      - nawah
+      
 secrets:
   bot_credentials:
     file: /home/marshall/ach_test/credentials.json
