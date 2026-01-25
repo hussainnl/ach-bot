@@ -1,5 +1,6 @@
 import pymysql
 from database.config_db import Config
+import logging
 
 class Group :
 
@@ -35,12 +36,15 @@ class Group :
             self.con.commit()
     def add_new_group(self,group_id,group_name):
         """To add a new group to the database"""
-
-          # Remember to commit the transaction after executing INSERT.
-        with self.con.cursor() as cur:
-            cur.execute("""INSERT INTO group_info(group_id, group_name)
-                          VALUES( %s, %s)""", ( group_id,group_name))
-            self.con.commit()
+        logging.info(f"start add_new_group")
+        try:
+            with self.con.cursor() as cur:
+                cur.execute("""INSERT INTO group_info(group_id, group_name)
+                            VALUES( %s, %s)""", ( group_id,group_name))
+                self.con.commit()
+                logging.info(f"add_new_group done")
+        except:
+            logging.info(f"the group is alread there")
 
     def update_study_topic_id(self,study_topic_id,group_id):
         """To update the study topic id"""

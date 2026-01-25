@@ -45,11 +45,14 @@ class User :
     def add_user(self,group_id,user_id,user_name):
         """To add a new user to the database"""
         logging.info(f"start add_user")
-        with self.con.cursor() as cur:
-            cur.execute("""INSERT INTO user_info(user_id,group_id, user_name)
-                          VALUES(%s, %s, %s)""", (user_id, group_id,user_name))
-            self.con.commit()
-        logging.info(f"add_user done")
+        try:
+            with self.con.cursor() as cur:
+                cur.execute("""INSERT INTO user_info(user_id,group_id, user_name)
+                            VALUES(%s, %s, %s)""", (user_id, group_id,user_name))
+                self.con.commit()
+            logging.info(f"add_user done")
+        except:
+            logging.info(f"the user is alread there")
 
     def update_score(self,user_id, group_id,points):
         """To update the user achievement score"""
