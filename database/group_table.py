@@ -38,7 +38,7 @@ class Group :
 
           # Remember to commit the transaction after executing INSERT.
         with self.con.cursor() as cur:
-            cur.execute("""INSERT INTO group_info(group_id, user_name)
+            cur.execute("""INSERT INTO group_info(group_id, group_name)
                           VALUES( %s, %s)""", ( group_id,group_name))
             self.con.commit()
 
