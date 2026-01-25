@@ -21,7 +21,7 @@ async def state(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logging.info(f"add_user done")
     DB().check_user_id(user_id, chat_id)
     with User() as Usr:
-        user_scor = Usr().get_score(user_id, chat_id)
+        user_scor = Usr.get_score(user_id, chat_id)
     massage = f"✨ نقاطك : {user_scor} نقطة ✨"
     if user_scor is None:
         await update.message.reply_text("لم يتم تحديد المستخدم او المجموعة")
