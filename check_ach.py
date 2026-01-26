@@ -1,5 +1,8 @@
-from data_manager import Data_Manager
-DM = Data_Manager()
+
+
+
+
+
 class CheckAchievement:
     def __init__(self,):
         self.study_keywords = ["دراسي", "دراسية", "الدراسي", "الدراسية",
