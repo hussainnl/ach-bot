@@ -14,7 +14,7 @@ async def state(update: Update, context: ContextTypes.DEFAULT_TYPE):
         Ur.add_user(chat_id,user_id,user_name)
  
     with User() as Ur:
-        user_scor = Ur.get_score(user_id, chat_id)
+        user_scor = Ur.get_user_score(user_id, chat_id)
 
     massage = f"✨ نقاطك : {user_scor} نقطة ✨"
     await update.message.reply_text(massage)
