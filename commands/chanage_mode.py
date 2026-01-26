@@ -20,7 +20,7 @@ async def chanage_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     user_id = update.effective_user.id
-    chat_id = update.effective_chat.id
+    group_id = update.effective_chat.id
     await query.answer()  # لازم عشان تيليجرام
 
     selected_value = query.data  # دي القيمة اللي رجعت
@@ -28,10 +28,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if selected_value == "option_1":
         text = "انت اخترت الوضع السهل 🌙"
         with User() as Ur :
-            Ur.update_user_mode(user_id,chat_id,0)
+            Ur.update_user_mode(user_id,group_id,0)
     elif selected_value == "option_2":
         with User() as Ur :
-            Ur.update_user_mode(user_id,chat_id,1)
+            Ur.update_user_mode(user_id,group_id,1)
         text = "انت اخترت الوضع الصعب 💪"
     else:
         text = "اختيار غير معروف"
