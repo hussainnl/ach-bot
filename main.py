@@ -1,5 +1,6 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters , CallbackQueryHandler 
-from data_manager import Data_Manager as DB , Bot_Setting as BS
+from database.group_table import Group
+from database.user_table import User
 import os
 from commands.set_group import set_group
 from commands.set_monitoring_topics import study_monitoring_topic , weekly_monitoring_topic
@@ -22,8 +23,9 @@ logging.basicConfig(
 
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
-DB().make_new_table()
-BS().make_new_table()
+with Group()as Gp,User() as Ur:
+    Ur.table_check()
+    Gp.table_check()
 
 app = ApplicationBuilder().token(BOT_TOKEN).post_init(set_timer).build()
 
