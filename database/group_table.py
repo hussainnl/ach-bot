@@ -45,6 +45,16 @@ class Group :
                 logging.info(f"add_new_group done")
         except:
             logging.info(f"the group is alread there")
+    
+    def get_group_ids(self):
+        """to get the group ids in which the bot is set"""   
+        with self.con.cursor() as cur:
+            cur.execute("SELECT group_id FROM group_info")
+            groups_ids = []
+            for id in cur.fetchall():
+                id[0]    
+                groups_ids.append(id[0]) 
+            return groups_ids
 
     def update_study_topic_id(self,study_topic_id,group_id):
         """To update the study topic id"""
