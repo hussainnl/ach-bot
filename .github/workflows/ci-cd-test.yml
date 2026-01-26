@@ -3,9 +3,12 @@ name: ci\cd_test
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: 
     push:
-      branches: [ test ]
+      branches: 
+        - main
+        - test
 jobs:
-  build_bot:
+  deploy-test:
+    if: github.ref == 'refs/heads/test'
     runs-on: self-hosted
     steps: 
       - name: Check out repository code
@@ -14,5 +17,13 @@ jobs:
       - run: docker compose -f compose_test.yaml build  --no-cache	
       - run: docker compose -f compose_test.yaml up -d
 
-
+  deploy-main:
+    if: github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    steps: 
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - run: docker compose -p test_bot  down
+      - run: docker compose -f compose_main.yaml build  --no-cache	
+      - run: docker compose -f compose_main.yaml up -d
 
