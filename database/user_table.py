@@ -54,7 +54,17 @@ class User :
         except:
             logging.info(f"the user is alread there")
 
-    def update_score(self,user_id, group_id,points):
+    def is_user_a_member(self,user_id):
+        """To check the userid if it in our groups for start command"""
+        with self.con.cursor() as cur:
+            cur.execute("SELECT group_id FROM user_info WHERE  user_id = ? ",(user_id,))
+            user_groups = []
+            for id in cur.fetchall():
+                id[0]    
+                user_groups.append(id[0]) 
+            return user_groups
+    
+    def update_user_score(self,user_id, group_id,points):
         """To update the user achievement score"""
         with self.con.cursor() as cur:
             cur.execute("SELECT score FROM user_info WHERE user_id = %s AND group_id = %s", (user_id,group_id))
@@ -68,7 +78,7 @@ class User :
             self.con.commit()
 
 
-    def get_score(self,user_id,group_id):
+    def get_user_score(self,user_id,group_id):
         """To get the user achievement score"""
         with self.con.cursor() as cur:
             cur.execute("SELECT score FROM user_info WHERE user_id = %s AND group_id = %s", (user_id,group_id))       
@@ -137,10 +147,9 @@ class User :
             user_mode = cur.fetchone()[0]
             return user_mode
         
-    def update_user_mode(self, user_id, group_id):
+    def update_user_mode(self, user_id, group_id,new_mode):
         """To update the user mode"""
         with self.con.cursor() as cur:
-            new_mode = 0
             cur.execute("""
             UPDATE user_info
             SET mode = %s
