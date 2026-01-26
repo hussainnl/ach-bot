@@ -1,17 +1,21 @@
 from telegram import Update
 from telegram.ext import ContextTypes ,Application
-from data_manager import Data_Manager as DM ,Bot_Setting as BS
+from database.group_table import Group
+from database.user_table import User
 from utils import is_admin
 import  datetime
 from zoneinfo import ZoneInfo
 import logging
+
+
 async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     chat_id = context.job.data
-    
-    DM().weekly_missed_update(chat_id)
-    banned_ids = DM().get_ban_users()
-    for user_id in banned_ids :
-        await context.bot.ban_chat_member(chat_id, user_id)
+
+    with User() as Ur :
+        Ur.weekly_missed_update()
+        banned_ids = Ur.get_ban_users()
+        for user_id in banned_ids :
+            await context.bot.ban_chat_member(chat_id, user_id)
     await weekly_remender(context)
 
 async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
@@ -24,7 +28,8 @@ async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
     text=msgg + f'👋 وعشان توصلك التنبيهات في الخاص اضغط <a href="{bot_link}">اشتراك</a>',
     parse_mode="HTML")
     await context.bot.pin_chat_message(chat_id,msg.id)
-    subs = DM().get_subscription_status(chat_id)
+    with User() as Ur :
+        subs = Ur.get_subscription_users()
     for sub in range(len(subs)) :
         user_id = subs[sub][0]
         msg_user = "مرحبًا يا بطل! حبيت أفكرك إن أسبوع جديد بدء و الوقت حان عشان تشارك إنجازاتك الأسبوعية 📝\n"
@@ -34,11 +39,13 @@ async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
 
 async def check_1(context: ContextTypes.DEFAULT_TYPE):
     chat_id = context.job.data
-    subs = DM().get_subscription_status(chat_id)
+    with User() as Ur :
+        subs = Ur.get_subscription_users()
     for sub in range(len(subs)) :   
         user_id = subs[sub][0]
         msg_user = "مرحبًا يا بطل! حبيت أفكرك تاني إن أسبوع جديد بدء و الوقت حان عشان تشارك إنجازاتك الأسبوعية 📝\n"
-        missed = DM().get_missed(user_id, chat_id)
+        with User() as Ur :
+            missed = Ur.get_user_missed(user_id, chat_id)
         logging.info(f"missed {missed}")
         if missed != 0 :     
             await context.bot.send_message(user_id,msg_user)
@@ -46,18 +53,21 @@ async def check_1(context: ContextTypes.DEFAULT_TYPE):
 
 async def check_2(context: ContextTypes.DEFAULT_TYPE):
     chat_id = context.job.data
-    subs = DM().get_subscription_status(chat_id)
+    with User() as Ur :
+        subs = Ur.get_subscription_users()
     for sub in range(len(subs)) :
         user_id = subs[sub][0]
         msg_user = "مرحبًا يا بطل! حبيت أفكرك إن ناقص يوم على بداية الأسبوع الجديد ف يلا سجل إنجازك ي  بطل 📝\n"
-        missed = DM().get_missed(user_id, chat_id)
+        with User() as Ur :
+            missed = Ur.get_user_missed(user_id, chat_id)
         logging.info(f"missed2 {missed}")
         if missed != 0 :     
             await context.bot.send_message(user_id,msg_user)
 
 async def set_timer(application:Application):
-    
-    group_ids = BS().get_group_ids()  
+
+    with Group() as Gp :
+        group_ids = Gp.get_group_ids()
     for chat_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
