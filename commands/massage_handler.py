@@ -1,8 +1,9 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from data_manager import Data_Manager as DB , Bot_Setting as BS
 from check_ach import CheckAchievement
 from doc_register import doc_register
+from database.user_table import User
+from database.group_table import Group
 import logging
 import os
 
@@ -11,19 +12,19 @@ DOCUMENT_ID = os.getenv("DOCUMENT_ID")
 
 async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
-    chat_id = update.effective_chat.id    
-    DB().check_user_id(user_id,chat_id)
-    study_topic_id = [BS().get_study_topic_id(chat_id)]
-    weekly_topic_id = BS().get_weekly_topic_id(chat_id)
+    group_id = update.effective_chat.id 
+
+    with Group() as Gb:
+        study_topic_id = Gb.get_study_topic_id(group_id)
+        weekly_topic_id = Gb.get_weekly_topic_id(group_id)
     monitoring_topic_id = update.message.message_thread_id
     
     if monitoring_topic_id in study_topic_id:
-        logging.info(f"study_topic_id start")
         points  = 7
         await submit_achievement(update, context,points)
     elif monitoring_topic_id is weekly_topic_id:
-        logging.info(f"weekly_topic_id start")
-        user_mode = DB().get_mode(user_id,chat_id)
+        with User() as Ur:
+            user_mode = Ur.get_user_mode(user_id,group_id)
         if user_mode == 0 :
             points = 70
         elif user_mode == 1:
@@ -33,37 +34,44 @@ async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
 async def new_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
-    chat_id = update.effective_chat.id
-    DB().check_user_id(user_id, chat_id)
+    user_full_name = "--" + update.effective_user.full_name
+    username = update.effective_user.username if  update.effective_user.username else  user_full_name
+    group_id = update.effective_chat.id
 
+    with User() as Ur:
+        Ur.add_user(group_id,user_id, username)
+
+def set_the_message(points,user_scor):
+    message = (
+    f"تم تسجيل إنجازك بنجاح 🏆\n"
+    f"حصلت على {points} نقاط جديدة!🌟\n\n"
+     f"✨ إجمالي نقاطك الآن: {user_scor} ✨")
+    return message
+    
 
 async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,points) -> None:
-    logging.info(f"submit_achievement start")
     user_id = update.effective_user.id
-    chat_id = update.effective_chat.id
+    group_id = update.effective_chat.id
     text = update.message.text
+
     if CheckAchievement().check_achievement(update.message.text,points):
-        DB().check_user_id(user_id, chat_id)
-        logging.info(f"CheckAchievement start")
-        if DB().get_missed(user_id, chat_id) > 0 or points < 70:
-            DB().update_user_count(user_id, chat_id, points)
-            user_scor = DB().state_count(user_id, chat_id)
-            DB().update_user_missed(user_id, chat_id)
-           
-            message = (
-            f"تم تسجيل إنجازك بنجاح 🏆\n"
-            f"حصلت على {points} نقاط جديدة!🌟\n\n"
-            f"✨ إجمالي نقاطك الآن: {user_scor} ✨")
-            # f"🔥 استمر في جمع النقاط… كل خطوة بتقربك من القمة 🏆") #When I create the promotion ladder
-            separator = "\n___________________________________________\n"
-            doc_message = text + separator
-            doc_register(DOCUMENT_ID,doc_message )
-            await update.message.reply_text(message)
-        else:
-            await update.message.reply_text(
-                "⚠️ لقد سجّلت إنجازك هذا الأسبوع بالفعل.\n"
-                "⏳ لا يمكن تسجيل أكثر من مرة في نفس الأسبوع."
-            )
+        with User() as Ur:
+            if Ur.get_user_missed(user_id, group_id) > 0 or points < 70:
+                Ur.update_user_score(user_id, group_id, points)
+                user_scor = Ur.get_user_score(user_id, group_id)
+                Ur.update_user_missed(user_id, group_id)
+
+                separator = "\n___________________________________________\n"
+                doc_message = text + separator
+                doc_register(DOCUMENT_ID,doc_message )
+
+                message = set_the_message(points,user_scor)
+                await update.message.reply_text(message)
+            else:
+                await update.message.reply_text(
+                    "⚠️ لقد سجّلت إنجازك هذا الأسبوع بالفعل.\n"
+                    "⏳ لا يمكن تسجيل أكثر من مرة في نفس الأسبوع."
+                )
     elif points >= 70 :
         await update.message.reply_text(
             "📝 تذكير مهم:\n\n"
