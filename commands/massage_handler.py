@@ -14,9 +14,9 @@ async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     user_id = update.effective_user.id
     group_id = update.effective_chat.id 
 
-    with Group() as Gb:
-        study_topic_id = Gb.get_study_topic_id(group_id)
-        weekly_topic_id = Gb.get_weekly_topic_id(group_id)
+    with Group() as Gp:
+        study_topic_id = Gp.get_study_topic_id(group_id)
+        weekly_topic_id = Gp.get_weekly_topic_id(group_id)
     monitoring_topic_id = update.message.message_thread_id
     
     if monitoring_topic_id in study_topic_id:
