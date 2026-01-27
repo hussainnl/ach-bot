@@ -19,10 +19,10 @@ async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         weekly_topic_id = Gp.get_weekly_topic_id(group_id)
     monitoring_topic_id = update.message.message_thread_id
     
-    if monitoring_topic_id in study_topic_id:
+    if monitoring_topic_id == study_topic_id:
         points  = 7
         await submit_achievement(update, context,points)
-    elif monitoring_topic_id is weekly_topic_id:
+    elif monitoring_topic_id == weekly_topic_id:
         with User() as Ur:
             user_mode = Ur.get_user_mode(user_id,group_id)
         if user_mode == 0 :
