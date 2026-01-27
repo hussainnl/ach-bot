@@ -69,8 +69,8 @@ class Group :
     def get_study_topic_id(self,group_id):
         """To get the study_topic_id"""
         with self.con.cursor() as cur:
-            topic_id = cur.execute("SELECT study_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
-            study_topic_id = topic_id.fetchone()[0]
+            cur.execute("SELECT study_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
+            study_topic_id = cur.fetchone()[0]
             return study_topic_id
         
     def update_weekly_topic_id(self,weekly_topic_id,group_id):
@@ -86,8 +86,8 @@ class Group :
     def get_weekly_topic_id(self,group_id):
         """To get the weekly_topic_id"""
         with self.con.cursor() as cur:
-            topic_id = cur.execute("SELECT weekly_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
-            weekly_topic_id = topic_id.fetchone()[0]
+            cur.execute("SELECT weekly_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
+            weekly_topic_id = cur.fetchone()[0]
             return weekly_topic_id
         
     def update_notification_topic_id(self,notification_topic_id,group_id):
@@ -102,8 +102,8 @@ class Group :
     def get_notification_topic_id(self,group_id):
         """To get the notification_topic_id"""
         with self.con.cursor() as cur:
-            topic_id = cur.execute("SELECT notification_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
-            notification_topic_id = topic_id.fetchone()[0]
+            cur.execute("SELECT notification_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
+            notification_topic_id = cur.fetchone()[0]
             return notification_topic_id
         
     def update_rules_topic_id(self,rules_topic_id,group_id):
@@ -118,6 +118,6 @@ class Group :
     def get_rules_topic_id(self,group_id):
         """To get the rules_topic_id"""
         with self.con.cursor() as cur:
-            topic_id = cur.execute("SELECT rules_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
-            rules_topic_id = topic_id.fetchone()[0]
+            cur.execute("SELECT rules_topic_id FROM group_info WHERE group_id = %s", (group_id,))       
+            rules_topic_id = cur.fetchone()[0]
             return rules_topic_id
