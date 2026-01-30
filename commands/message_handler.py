@@ -53,16 +53,25 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
     user_id = update.effective_user.id
     group_id = update.effective_chat.id
     text = update.message.text
+    separator = "\n___________________________________________\n"
+    doc_message = text + separator
 
     if CheckAchievement().check_achievement(update.message.text,points):
         with User() as Ur:
-            if Ur.get_user_missed(user_id, group_id) > 0 or points < 70:
+            if  points < 70:
+                Ur.update_user_score(user_id, group_id, points)
+                user_scor = Ur.get_user_score(user_id, group_id)
+
+                doc_register(DOCUMENT_ID,doc_message )
+                
+                message = set_the_message(points,user_scor)
+                await update.message.reply_text(message)
+
+            elif Ur.get_user_missed(user_id, group_id) > 0:
                 Ur.update_user_score(user_id, group_id, points)
                 user_scor = Ur.get_user_score(user_id, group_id)
                 Ur.update_user_missed(user_id, group_id)
 
-                separator = "\n___________________________________________\n"
-                doc_message = text + separator
                 doc_register(DOCUMENT_ID,doc_message )
 
                 message = set_the_message(points,user_scor)
