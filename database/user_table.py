@@ -110,7 +110,6 @@ class User :
             cur.execute("""
             UPDATE user_info
             SET missed = %s
-            W
             """, (weekly_missed,))
             self.con.commit()
 
