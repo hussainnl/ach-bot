@@ -1,5 +1,5 @@
 import pymysql
-from database.config_db import Config
+from databases.mysql.config_db import Config
 import logging
 
 class Group :
