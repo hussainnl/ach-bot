@@ -1,6 +1,6 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters , CallbackQueryHandler 
-from database.group_table import Group
-from database.user_table import User
+from databases.mysql.group_table import Group
+from databases.mysql.user_table import User
 import os
 from commands.set_group import set_group
 from commands.set_monitoring_topics import study_monitoring_topic , weekly_monitoring_topic
