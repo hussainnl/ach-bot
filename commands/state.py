@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from database.user_table import User 
+from databases.mysql.user_table import User 
 import logging
 
 

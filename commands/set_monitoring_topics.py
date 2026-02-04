@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from database.group_table import Group
+from databases.mysql.group_table import Group
 from utils import is_admin
 async def study_monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE):    
     group_id = update.effective_chat.id

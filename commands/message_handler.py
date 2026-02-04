@@ -2,8 +2,8 @@ from telegram import Update
 from telegram.ext import ContextTypes
 from check_ach import CheckAchievement
 from doc_register import doc_register
-from database.user_table import User
-from database.group_table import Group
+from databases.mysql.user_table import User
+from databases.mysql.group_table import Group
 import logging
 import os
 

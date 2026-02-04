@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from utils import is_admin
-from database.group_table import Group 
+from databases.mysql.group_table import Group 
 
 
 

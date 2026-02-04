@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes ,Application
-from database.group_table import Group
-from database.user_table import User
+from databases.mysql.group_table import Group
+from databases.mysql.user_table import User
 from utils import is_admin
 import  datetime
 from zoneinfo import ZoneInfo
@@ -20,13 +20,15 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
 
 async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
+    with Group() as Gp :
+        notification_topic_id = Gp.get_notification_topic_id(group_id)
     app_info = await context.bot.get_me()
     bot_link = f"https://t.me/{app_info.username}?start=join_{group_id}"
     msgg = "مرحبًا يا أبطال! حبيت أفكركم إن أسبوع جديد بدء و الوقت حان عشان تشاركوا إنجازاتكم الأسبوعية 📝\n"
     msg = await context.bot.send_message(
     group_id,
     text=msgg + f'👋 وعشان توصلك التنبيهات في الخاص اضغط <a href="{bot_link}">اشتراك</a>',
-    parse_mode="HTML")
+    parse_mode="HTML",message_thread_id=notification_topic_id)
     await context.bot.pin_chat_message(group_id,msg.id)
     with User() as Ur :
         subs = Ur.get_subscription_users()
