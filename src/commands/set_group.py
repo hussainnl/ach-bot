@@ -6,6 +6,7 @@ from databases.mysql.group_table import Group
 
 
 async def set_group(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """To set the group that the bot will work in it and add its info in the database"""
     group_id = update.effective_chat.id
     group_name = update.effective_chat.title
     user_id = update.effective_user.id

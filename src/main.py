@@ -1,7 +1,8 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters , CallbackQueryHandler 
+
 from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
-import os
+
 from commands.set_group import set_group
 from commands.set_monitoring_topics import study_monitoring_topic , weekly_monitoring_topic
 from commands.set_notification_topic import set_notification_topic
@@ -12,8 +13,11 @@ from commands.set_timer import set_timer
 from commands.restart_missed import restart_missed
 from commands.start import start 
 from commands.chanage_mode import chanage_mode , button_handler
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+
 import logging
+import os
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
 
 logging.basicConfig(
     level=logging.INFO, 
