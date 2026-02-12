@@ -15,7 +15,8 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
         Ur.weekly_missed_update()
         banned_ids = Ur.get_ban_users()
         for user_id in banned_ids :
-            await context.bot.ban_chat_member(group_id, user_id)
+            await context.bot.ban_chat_member(group_id, user_id,until_date=datetime.datetime(minute=10))
+            Ur.delete_user(user_id,group_id)
     await weekly_remender(context)
 
 async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
