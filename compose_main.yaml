@@ -4,6 +4,7 @@ services:
   bot:
     build: .
     container_name: ach_bot
+    restart: unless-stopped
     env_file:
       - /home/marshall/ash_bot/.env
     secrets:
