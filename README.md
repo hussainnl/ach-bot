@@ -13,3 +13,4 @@
 git clone https://github.com/hussainnl/ach-bot.git
 
 ```
+<img width="1042" alt="VSCode Cli-screenshot" src="/resource/clone_command.png">
