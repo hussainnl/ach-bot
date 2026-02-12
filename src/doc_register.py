@@ -1,34 +1,28 @@
-import sys
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from config import Configuration 
+import logging
 
 
-
-def doc_register(doc_id,massage):
-    print("--- 3. دخلنا إلى دالة main ---")
+def doc_register(doc_id,massage): 
+    """to register the user achievements message in google doc"""
+    
     massage = massage
     creds = None
     try:
-        print("--- 4. جارٍ محاولة المصادقة (authenticate_google) ---")
+        
         creds = Configuration().authenticate_google()
-        if creds:
-            print("--- 5. تمت المصادقة بنجاح، حصلنا على creds ---")
-        else:
-            # إذا كانت authenticate_google() قد تعيد None في حالة الفشل
-            print("--- 5. فشلت المصادقة، لم يتم إرجاع creds! ---")
-            sys.exit(1) # الخروج من البرنامج
+        if creds == None:
+            logging.info(f"creds = None")
+
 
     except Exception as e:
-        print(f"!!! حدث خطأ أثناء المصادقة: {e}")
-        sys.exit(1)
+        logging.info(f"Error {e}")
+        
 
 
     try:
-        print("--- 6. جارٍ بناء خدمة Google Docs (build service) ---")
         service = build("docs", "v1", credentials=creds)
-        print("--- 7. تم بناء الخدمة بنجاح ---")
-
         requests = [
             {
                 'insertText': {
@@ -38,18 +32,13 @@ def doc_register(doc_id,massage):
             },
         ]
 
-        print("--- 8. سيتم الآن تنفيذ طلب batchUpdate ---")
-        result = service.documents().batchUpdate(
+        service.documents().batchUpdate(
             documentId=doc_id,
             body={'requests': requests}
         ).execute()
-        print("--- 9. تم تنفيذ طلب batchUpdate بنجاح! ---")
-        print(f"النتيجة: {result}")
-
+ 
     except HttpError as err:
-        print(f"!!! حدث خطأ من Google API: {err}")
+        print(f"!!! Error in Google API: {err}")
     except Exception as e:
-        print(f"!!! حدث خطأ غير متوقع: {e}")
-
-# --- بداية تنفيذ البرنامج ---
+        print(f"!!! Error : {e}")
 
