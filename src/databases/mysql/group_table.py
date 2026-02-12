@@ -32,8 +32,8 @@ class Group :
                         DEFAULT NULL,
                         PRIMARY KEY (group_id),
                         UNIQUE  unq_group_name (group_name))""")   
-            print("btyhk")
             self.con.commit()
+
     def add_new_group(self,group_id,group_name):
         """To add a new group to the database"""
         logging.info(f"start add_new_group")
@@ -50,10 +50,7 @@ class Group :
         """to get the group ids in which the bot is set"""   
         with self.con.cursor() as cur:
             cur.execute("SELECT group_id FROM group_info")
-            groups_ids = []
-            for id in cur.fetchall():
-                id[0]    
-                groups_ids.append(id[0]) 
+            groups_ids = [ id[0] for id in cur.fetchall()]
             return groups_ids
 
     def update_study_topic_id(self,study_topic_id,group_id):
@@ -99,6 +96,7 @@ class Group :
             WHERE group_id = %s
             """, (notification_topic_id,group_id))
             self.con.commit()
+
     def get_notification_topic_id(self,group_id):
         """To get the notification_topic_id"""
         with self.con.cursor() as cur:
@@ -115,6 +113,7 @@ class Group :
             WHERE group_id = %s
             """, (rules_topic_id,group_id))
             self.con.commit()
+            
     def get_rules_topic_id(self,group_id):
         """To get the rules_topic_id"""
         with self.con.cursor() as cur:
