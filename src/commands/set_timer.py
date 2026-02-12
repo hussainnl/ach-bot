@@ -12,7 +12,8 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
 
     with User() as Ur :
-        Ur.weekly_missed_update()
+        
+        Ur.weekly_missed_update(group_id)
         banned_ids = Ur.get_ban_users()
         for user_id in banned_ids :
             await context.bot.ban_chat_member(group_id, user_id,until_date=datetime.datetime(minute=10))
