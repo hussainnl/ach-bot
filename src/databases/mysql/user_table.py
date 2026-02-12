@@ -40,8 +40,8 @@ class User :
                             REFERENCES group_info (group_id)
                             ON DELETE CASCADE
                             ON UPDATE CASCADE)""")   
-            print("btyhk")
             self.con.commit()
+            
     def add_user(self,group_id,user_id,user_name):
         """To add a new user to the database"""
         logging.info(f"start add_user")
@@ -110,22 +110,35 @@ class User :
             self.con.commit()
 
 
-    def weekly_missed_update(self):
-        with self.con.cursor() as cur:
-            weekly_missed = 1
-            cur.execute("""
-            UPDATE user_info
-            SET missed = %s
-            """, (weekly_missed,))
-            self.con.commit()
+    def weekly_missed_update(self,group_id):
+        """To beggin a new week"""
 
-            
+        with self.con.cursor() as cur:
+            users_id = self.get_users_list(group_id)
+            for user_id in users_id:
+                user_missed = self.get_user_missed(user_id,group_id)
+                new_missed = user_missed + 1
+                cur.execute("""
+                UPDATE user_info
+                SET missed = %s
+                WHERE user_id = %s AND group_id = %s
+                """, (new_missed,user_id,group_id))
+                self.con.commit()
+
+    def get_users_list(self,group_id):
+        """To get users list"""
+        with self.con.cursor() as cur:
+            cur.execute("SELECT  user_id FROM user_info WHERE group_id = %s", (group_id,))
+            users_id =[ id[0] for id in cur.fetchall()]
+            return users_id
+                   
     def get_ban_users(self):
         """To get users to be banned"""
         with self.con.cursor() as cur:
-            cur.execute("SELECT missed FROM user_info WHERE ( mode = 1 AND missed = 2 ) OR missed = 4")
+            cur.execute("SELECT user_id FROM user_info WHERE ( mode = 1 AND missed = 2 ) OR missed = 4")
             banned_ids =[ id[0] for id in cur.fetchall()]
             return banned_ids
+        
 
     def update_user_subscription(self, user_id, group_id,sub_state):
         """To update the user subscription"""
@@ -141,7 +154,7 @@ class User :
     def get_subscription_users(self):
         """To get subscription users"""
         with self.con.cursor() as cur:
-            cur.execute("SELECT is_subscribed FROM user_info WHERE is_subscribed = 1")
+            cur.execute("SELECT user_id FROM user_info WHERE is_subscribed = 1")
             subscription_users =[ id[0] for id in cur.fetchall()]
             return subscription_users
         
