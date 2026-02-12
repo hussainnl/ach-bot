@@ -10,7 +10,7 @@ from commands.set_rules_topic import set_rules_topic
 from commands.message_handler import monitoring_topic , new_user
 from commands.state import state
 from commands.set_timer import set_timer
-from commands.restart_missed import restart_missed
+from commands.reset_missed import reset_missed
 from commands.start import start 
 from commands.chanage_mode import chanage_mode , button_handler
 
@@ -40,7 +40,7 @@ app.add_handler(CommandHandler("study_monitoring_topic", study_monitoring_topic)
 app.add_handler(CommandHandler("weekly_monitoring_topic", weekly_monitoring_topic))
 app.add_handler(CommandHandler("set_notification_topic", set_notification_topic))
 app.add_handler(CommandHandler('set_rules_topic', set_rules_topic))
-app.add_handler(CommandHandler('restart_missed', restart_missed))
+app.add_handler(CommandHandler('restart_missed', reset_missed))
 app.add_handler(CommandHandler('chanage_mode', chanage_mode))
 app.add_handler(CommandHandler('state', state))
 app.add_handler(MessageHandler(filters.ChatType.GROUPS & filters.StatusUpdate.NEW_CHAT_MEMBERS, new_user))
