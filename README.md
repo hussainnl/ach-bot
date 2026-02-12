@@ -12,6 +12,7 @@
 
 ```bash
 git clone https://github.com/hussainnl/ach-bot.git
+cd ach-bot
 
 ```
 <img width="1042" alt="VSCode Cli-screenshot" src="/resource/clone_command.png">
@@ -33,9 +34,16 @@ DB_NAME=db_name  # هنا اسم الداتا بيز اللي اتعملت جو 
 DB_CHARSET=utf8mb4 #مجرد شكل البيانات في الداتا بيز انسخه زي ما هو
 ```
 
-### ثانياً تحميل الحزم المطلوبة للتشغيل
+### ثالثاً تحميل الحزم المطلوبة للتشغيل
 
 كل المطلوب منك انك تكتب الأمر ده في شريط الأومر نفس زي المرة اللي فاتت فوق:
 ```bash
 pip install -r requirements.txt
+```
+
+### رابعاً التشغيل 
+
+كل المطلوب منك انك تكتب الأمر ده في شريط الأومر نفس زي المرة اللي فاتت فوق:
+```bash
+python src/main.py
 ```
