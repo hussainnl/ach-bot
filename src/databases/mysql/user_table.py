@@ -135,7 +135,7 @@ class User :
     def get_ban_users(self):
         """To get users to be banned"""
         with self.con.cursor() as cur:
-            cur.execute("SELECT user_id FROM user_info WHERE ( mode = 1 AND missed = 2 ) OR missed = 4")
+            cur.execute("SELECT user_id FROM user_info WHERE ( mode = 1 AND missed > 2 ) OR missed > 4")
             banned_ids =[ id[0] for id in cur.fetchall()]
             return banned_ids
         
