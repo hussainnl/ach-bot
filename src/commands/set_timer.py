@@ -75,8 +75,8 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time=datetime.time(hour=23,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(5,),  
+            time=datetime.time(minute=1,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(6,),  
             name=str(group_id),                   
             chat_id=group_id,
             data=group_id,          
