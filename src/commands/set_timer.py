@@ -16,7 +16,7 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
         Ur.weekly_missed_update(group_id)
         banned_ids = Ur.get_ban_users()
         for user_id in banned_ids :
-            await context.bot.ban_chat_member(group_id, user_id,until_date=datetime.datetime(minute=10))
+            await context.bot.ban_chat_member(group_id, user_id,until_date=datetime.time(minute=10))
             Ur.delete_user(user_id,group_id)
     await weekly_remender(context)
 
@@ -75,7 +75,7 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time=datetime.time(minute=1,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time=datetime.time(hour=0,minute=15,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(6,),  
             name=str(group_id),                   
             chat_id=group_id,
