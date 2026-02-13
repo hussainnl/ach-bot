@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes ,Application
 from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
 from utils import is_admin
-import  datetime
+from datetime import datetime, timedelta,time
 from zoneinfo import ZoneInfo
 import logging
 
@@ -12,11 +12,11 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
 
     with User() as Ur :
-        
+        unban_at = datetime.now() + timedelta(seconds=30)
         Ur.weekly_missed_update(group_id)
         banned_ids = Ur.get_ban_users()
         for user_id in banned_ids :
-            await context.bot.ban_chat_member(group_id, user_id,until_date=datetime.time(minute=10))
+            await context.bot.ban_chat_member(group_id, user_id,until_date=unban_at)
             Ur.delete_user(user_id,group_id)
     await weekly_remender(context)
 
@@ -75,7 +75,7 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time=datetime.time(hour=1,minute=30,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=1,minute=50,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(6,),  
             name=str(group_id),                   
             chat_id=group_id,
@@ -83,7 +83,7 @@ async def set_timer(application:Application):
             )  
         application.job_queue.run_daily(                        
             check_1,            
-            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(1,),  
             name=str(group_id),                   
             chat_id=group_id,          
@@ -91,7 +91,7 @@ async def set_timer(application:Application):
             )
         application.job_queue.run_daily(                        
             check_2,            
-            time=datetime.time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(4,),  
             name=str(group_id),                   
             chat_id=group_id,
