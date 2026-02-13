@@ -15,4 +15,4 @@ COPY . .
 RUN adduser --disabled-password --gecos '' bootuser && chown -R bootuser /ach_bot
 USER bootuser
 
-CMD ["python", "main.py"]
+CMD ["python", "src/main.py"]
