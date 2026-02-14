@@ -138,7 +138,7 @@ class User :
             cur.execute("""SELECT user_id FROM user_info 
                         WHERE group_id = %s AND (
                         ( mode = 1 AND missed > 2 )  
-                        OR (missed > 4) """, (group_id,))
+                        OR missed > 4 )""", (group_id,))
             banned_ids =[ id[0] for id in cur.fetchall()]
             return banned_ids
         
