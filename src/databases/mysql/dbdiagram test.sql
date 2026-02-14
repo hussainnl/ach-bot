@@ -11,11 +11,11 @@ DROP DATABASE IF EXISTS ach_test_db;
 
 -- create database ach_bot_db
 -- character set utf8
-CREATE DATABASE IF NOT EXISTS ach_bot_db
+CREATE DATABASE IF NOT EXISTS ach_test_db
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
-USE ach_bot_db;
+USE ach_test_db;
 
 -- Table group_info
 DROP TABLE IF EXISTS group_info;
