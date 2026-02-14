@@ -135,12 +135,15 @@ class User :
     def get_ban_users(self,group_id):
         """To get users to be banned"""
         with self.con.cursor() as cur:
-            cur.execute("""SELECT user_id FROM user_info 
-                        WHERE group_id = %s AND (
-                        ( mode = 1 AND missed > 2 )  
-                        OR missed > 4 )""", (group_id,))
-            banned_ids =[ id[0] for id in cur.fetchall()]
-            return banned_ids
+            cur.execute("""SELECT user_id FROM user_info WHERE group_id = %s AND 
+                          mode = 1 AND missed > 2""", (group_id,))
+            banned_ids_1 =[ id[0] for id in cur.fetchall()]
+            cur.execute("""SELECT user_id FROM user_info WHERE group_id = %s AND 
+                        missed > 4""", (group_id,))
+            banned_ids_2 =[ id[0] for id in cur.fetchall()]
+            banned_ids = banned_ids_1 + banned_ids_2
+            
+            return list(set(banned_ids))
         
 
     def update_user_subscription(self, user_id, group_id,sub_state):
