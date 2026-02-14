@@ -21,7 +21,7 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
                 Ur.delete_user(user_id,group_id)
         except Exception as e:
             logging.info(f"error {e}")
-    await weekly_remender(context)
+    #await weekly_remender(context)
 
 async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
