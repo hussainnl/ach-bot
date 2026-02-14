@@ -14,14 +14,14 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     with User() as Ur :
         unban_at = datetime.now() + timedelta(seconds=30)
         Ur.weekly_missed_update(group_id)
-        banned_ids = Ur.get_ban_users()
+        banned_ids = Ur.get_ban_users(group_id)
         try:
             for user_id in banned_ids :
                 await context.bot.ban_chat_member(group_id, user_id,until_date=unban_at)
                 Ur.delete_user(user_id,group_id)
         except Exception as e:
             logging.info(f"error {e}")
-    #await weekly_remender(context)
+    await weekly_remender(context)
 
 async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
@@ -78,7 +78,7 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=2,minute=20,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=2,minute=43,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(6,),  
             name=str(group_id),                   
             chat_id=group_id,
