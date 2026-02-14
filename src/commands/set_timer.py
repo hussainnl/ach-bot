@@ -23,7 +23,12 @@ async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
             except Exception as e:
                     logging.info(f"error {e}")
                     continue
-    # await weekly_remender(context)
+    await weekly_remender(context)
+
+
+
+
+
 
 async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
@@ -32,19 +37,25 @@ async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
     app_info = await context.bot.get_me()
     bot_link = f"https://t.me/{app_info.username}?start=join_{group_id}"
     msgg = "مرحبًا يا أبطال! حبيت أفكركم إن أسبوع جديد بدء و الوقت حان عشان تشاركوا إنجازاتكم الأسبوعية 📝\n"
+
     msg = await context.bot.send_message(
     group_id,
     text=msgg + f'👋 وعشان توصلك التنبيهات في الخاص اضغط <a href="{bot_link}">اشتراك</a>',
     parse_mode="HTML",message_thread_id=notification_topic_id)
+
     await context.bot.pin_chat_message(group_id,msg.id)
+    await user_remender(context)
+    logging.info(f"weekly_check done")
+
+
+async def user_remender(context : ContextTypes.DEFAULT_TYPE):
+    """To send remender notification in user's inbox """
     with User() as Ur :
         subs = Ur.get_subscription_users()
     for sub in range(len(subs)) :
         user_id = subs[sub][0]
         msg_user = "مرحبًا يا بطل! حبيت أفكرك إن أسبوع جديد بدء و الوقت حان عشان تشارك إنجازاتك الأسبوعية 📝\n"
         await context.bot.send_message(user_id,msg_user)
-    logging.info(f"weekly_check done")
-
 
 async def check_1(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
@@ -80,7 +91,7 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=3,minute=13,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=14,minute=3,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(6,),  
             name=str(group_id),                   
             chat_id=group_id,
