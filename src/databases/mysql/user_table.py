@@ -54,7 +54,7 @@ class User :
         except:
             logging.info(f"the user is alread there")
 
-    def delete_user(self,group_id,user_id):
+    def delete_user(self,user_id,group_id):
         """To delete a  user to the database"""
         with self.con.cursor() as cur:
             cur.execute("DELETE FROM user_info WHERE user_id = %s AND group_id = %s", (user_id,group_id)) 
