@@ -5,7 +5,7 @@ from utils import is_admin
 
 
 
-async def reset_missed(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def reset_missed(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
     """To reset the weekly missed in the testing time with the week achievement topic"""
     group_id = update.effective_chat.id
     user_id = update.effective_user.id        

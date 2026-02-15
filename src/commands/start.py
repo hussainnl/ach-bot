@@ -3,7 +3,7 @@ from telegram.ext import ContextTypes
 from databases.mysql.user_table import User
 import logging
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
     args = context.args
     keyboard = [[
             InlineKeyboardButton("Self Growth – No Limit", url="https://t.me/+4qvieInOHHA3NzM0"),

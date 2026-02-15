@@ -4,7 +4,7 @@ from databases.mysql.user_table import User
 import logging
 
 
-async def state(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def state(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
     """To send the achievement score to the user"""
     user_id = update.effective_user.id
     user_name =  update.effective_user.username if  update.effective_user.username else  update.effective_user.full_name

@@ -6,10 +6,10 @@
                  group 
  *************************************************************************************/
 
--- drop database ach_bot_db if it exists
+-- drop database ach_test_db if it exists
 DROP DATABASE IF EXISTS ach_test_db;
 
--- create database ach_bot_db
+-- create database ach_test_db
 -- character set utf8
 CREATE DATABASE IF NOT EXISTS ach_test_db
 CHARACTER SET utf8mb4
@@ -48,8 +48,7 @@ CREATE TABLE IF NOT EXISTS user_info (
   DEFAULT 0,
   mode TINYINT(1)
   DEFAULT 0,
-  PRIMARY KEY (user_id),
-  UNIQUE INDEX  unq_username (user_name) ,
+  PRIMARY KEY (user_id,group_id),
   INDEX  idx_sorce (score),
   INDEX  idx_missed (missed),
   CONSTRAINT fk_group_id

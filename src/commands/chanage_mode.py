@@ -5,7 +5,7 @@ import logging
 
 
 # /start command
-async def chanage_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def chanage_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard = [[
             InlineKeyboardButton("🔥 سهل", callback_data="option_1"),
             InlineKeyboardButton("⚡ صعب", callback_data="option_2")
@@ -17,7 +17,7 @@ async def chanage_mode(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 # Handle button press
-async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     user_id = update.effective_user.id
     group_id = update.effective_chat.id

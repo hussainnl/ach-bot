@@ -48,8 +48,7 @@ CREATE TABLE IF NOT EXISTS user_info (
   DEFAULT 0,
   mode TINYINT(1)
   DEFAULT 0,
-  PRIMARY KEY (user_id),
-  UNIQUE INDEX  unq_username (user_name) ,
+  PRIMARY KEY (user_id,group_id),
   INDEX  idx_sorce (score),
   INDEX  idx_missed (missed),
   CONSTRAINT fk_group_id

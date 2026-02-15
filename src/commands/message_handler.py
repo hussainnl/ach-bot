@@ -41,7 +41,7 @@ async def new_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     with User() as Ur:
         Ur.add_user(group_id,user_id, username)
 
-def set_the_message(points,user_scor):
+def set_the_message(points,user_scor) -> str :
     message = (
     f"تم تسجيل إنجازك بنجاح 🏆\n"
     f"حصلت على {points} نقاط جديدة!🌟\n\n"
