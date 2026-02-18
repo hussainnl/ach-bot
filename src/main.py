@@ -49,4 +49,4 @@ app.add_handler(CallbackQueryHandler(button_handler))
 app.add_handler(CommandHandler('set_timer', set_timer))
 
 
-app.run_polling()
+app.run_webhook()
