@@ -98,6 +98,13 @@ class User :
             missed = cur.fetchone()[0]
             return missed
         
+    def get_missed_users(self,group_id):
+        """To get users that missed their weekly achievements and should be notified"""
+        with self.con.cursor() as cur:
+            cur.execute("SELECT  user_id FROM user_info WHERE group_id = %s AND missed > 0 AND is_subscribed = 1", (group_id,))
+            missed_users_id =[ id[0] for id in cur.fetchall()]
+            return missed_users_id
+             
     def update_user_missed(self,user_id,group_id):
         """To update the user missed"""
         with self.con.cursor() as cur:

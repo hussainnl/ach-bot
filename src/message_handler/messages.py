@@ -72,6 +72,36 @@ class Messages:
         )
         return message
 
-
+    def get_bot_link(self,group_id,bot_username) -> str:
+        """To get the link of the group bot"""
+        bot_link = f"https://t.me/{bot_username}?start=join_{group_id}"
+        return bot_link
     
+    def sub_msg(self,group_id,bot_username) -> str:
+        """To prepare the subscription message"""
+        bot_link = self.get_bot_link(group_id,bot_username)
+        message = f"""وعشان توصلك التنبيهات في الخاص اضغط <a href="{bot_link}">اشتراك</a>\n"""
+        return message
+    
+    def user_remender_msg(self,check_id)-> str:
+
+        new_week_msg = "مرحبًا يا بطل! حبيت أفكرك إن أسبوع جديد بدء و الوقت حان عشان تشارك إنجازاتك الأسبوعية 📝\n"
+        monday_msg = "مرحبًا يا بطل! حبيت أفكرك تاني إن أسبوع جديد بدء و الوقت حان عشان تشارك إنجازاتك الأسبوعية 📝\n"
+        thursday_msg = "مرحبًا يا بطل! حبيت أفكرك إن ناقص يوم على بداية الأسبوع الجديد ف يلا سجل إنجازك ي  بطل 📝\n"
+        if check_id == 0 :
+            return new_week_msg
+        elif check_id == 1 :
+            return monday_msg
+        elif check_id == 2 :
+            return thursday_msg
+
+    def group_remender_msg(self,check_id) -> str:
+
+        new_week_msg = "مرحبًا يا أبطال! أسبوع جديد بدء و الوقت حان عشان تشاركوا إنجازاتكم الأسبوعية 📝\n"
+        thursday_msg = "مرحبًا يا أبطال! حبيت أفكركم إن ناقص يوم على بداية أسبوع جديد ف شاركوا إنجازاتكم الأسبوعية 📝\n"
+        if check_id == 0 :
+            return new_week_msg
+        elif check_id == 2 :
+            return thursday_msg
+   
 

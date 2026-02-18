@@ -9,7 +9,7 @@ from commands.set_notification_topic import set_notification_topic
 from commands.set_rules_topic import set_rules_topic
 from message_handler.message_handler import monitoring_topic , new_user
 from commands.state import state
-from commands.set_timer import set_timer
+from commands.set_timer import bot_timer
 from commands.reset_missed import reset_missed
 from commands.start import start 
 from commands.chanage_mode import chanage_mode , button_handler
@@ -31,7 +31,7 @@ with Group()as Gp,User() as Ur:
     Ur.table_check()
     Gp.table_check()
 
-app = ApplicationBuilder().token(BOT_TOKEN).post_init(set_timer).build()
+app = ApplicationBuilder().token(BOT_TOKEN).post_init(bot_timer).build()
 
 
 app.add_handler(CommandHandler("start", start))
