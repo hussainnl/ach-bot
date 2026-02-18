@@ -49,8 +49,4 @@ app.add_handler(CallbackQueryHandler(button_handler))
 app.add_handler(CommandHandler('set_timer', set_timer))
 
 
-app.run_webhook(
-    listen="0.0.0.0",
-    port=8443,
-    webhook_url="https://ach-bot.nawah-project.com"
-)
+app.run_polling()
