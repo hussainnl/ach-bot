@@ -2,13 +2,10 @@ from telegram import Update
 from telegram.ext import ContextTypes ,Application
 from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
+from message_handler.messages import Messages as msg
 from datetime import datetime, timedelta,time
 from zoneinfo import ZoneInfo
 import logging
-
-
-
-
 
 
 async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
@@ -61,8 +58,11 @@ async def remender_message(context : ContextTypes.DEFAULT_TYPE,group_id,message_
     else:
         #Besfore new week message id = 2
         msgg = "مرحبًا يا أبطال! حبيت أفكركم إن ناقص يوم على بداية أسبوع جديد ف شاركوا إنجازاتكم الأسبوعية 📝\n"
-    message = msgg + f'👋 وعشان توصلك التنبيهات في الخاص اضغط <a href="{bot_link}">اشتراك</a>'
-    return message
+    message = msgg + f"👋 وعشان توصلك التنبيهات في الخاص اضغط <a href={bot_link}>اشتراك</a>"
+    with Group() as Gp :
+        rules_topic_id = Gp.get_rules_topic_id(group_id)
+    rules_reminder_msg = msg().rules_reminder_msg(group_id,rules_topic_id)
+    return message + rules_reminder_msg
 
 
 async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
@@ -116,8 +116,8 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=15,minute=1,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(6,),  
+            time= time(hour=21,minute=27,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(2,),  
             name=str(group_id),                   
             chat_id=group_id,
             data=group_id,          

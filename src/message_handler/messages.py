@@ -56,5 +56,22 @@ class Messages:
             "⏳ لا يمكن تسجيل أكثر من مرة في نفس الأسبوع."
         )
         return message
+    
+    def get_rules_topic_link(self,group_id,rules_topic_id) -> str :
+        """To get the link of the rules topic in the group"""
+        group_id = str(group_id)[-10:]
+        rules_topic_link = f"https://t.me/c/{group_id}/{rules_topic_id}"
+        return rules_topic_link
+    
+    def rules_reminder_msg(self,group_id,rules_topic_id) -> str:
+        """To prepare the rules reminder message"""
+        rules_topic_link = self.get_rules_topic_link(group_id,rules_topic_id)
+        message = (
+            f"📜 وعلشان تفهم الوضع هنا ف ممكن تشوف <a href={rules_topic_link}>القوانين والقواعد</a>"
+  
+        )
+        return message
+
 
     
+
