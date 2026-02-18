@@ -58,7 +58,7 @@ async def remender_message(context : ContextTypes.DEFAULT_TYPE,group_id,message_
     else:
         #Besfore new week message id = 2
         msgg = "مرحبًا يا أبطال! حبيت أفكركم إن ناقص يوم على بداية أسبوع جديد ف شاركوا إنجازاتكم الأسبوعية 📝\n"
-    message = msgg + f"👋 وعشان توصلك التنبيهات في الخاص اضغط <a href={bot_link}>اشتراك</a>"
+    message = msgg + f"""👋 وعشان توصلك التنبيهات في الخاص اضغط <a href="{bot_link}">اشتراك</a>"""
     with Group() as Gp :
         rules_topic_id = Gp.get_rules_topic_id(group_id)
     rules_reminder_msg = msg().rules_reminder_msg(group_id,rules_topic_id)
@@ -116,7 +116,7 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=21,minute=33,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=21,minute=40,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(3,),  
             name=str(group_id),                   
             chat_id=group_id,

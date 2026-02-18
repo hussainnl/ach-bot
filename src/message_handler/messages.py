@@ -67,7 +67,7 @@ class Messages:
         """To prepare the rules reminder message"""
         rules_topic_link = self.get_rules_topic_link(group_id,rules_topic_id)
         message = (
-            f"📜 وعلشان تفهم الوضع هنا ف ممكن تشوف <a href={rules_topic_link}>القوانين والقواعد</a>"
+            f"""📜 وعلشان تفهم الوضع هنا ف ممكن تشوف <a href="{rules_topic_link}">القوانين والقواعد</a>"""
   
         )
         return message
