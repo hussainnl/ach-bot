@@ -89,14 +89,14 @@ async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
             if missed != 0 :     
                 await context.bot.send_message(user_id,msg_user_2)
 
-async def check_1(context: ContextTypes.DEFAULT_TYPE):
+async def monday_remender(context: ContextTypes.DEFAULT_TYPE):
     """To notificat the members of the groups with missed point to shara there acheivements in Monday """
     group_id = context.job.data
     check_id = 1
     await user_remender(context,group_id,check_id)
      
 
-async def check_2(context: ContextTypes.DEFAULT_TYPE):
+async def thursday_remender(context: ContextTypes.DEFAULT_TYPE):
     """To notificat the members of the groups with missed point to shara there acheivements in Thursday """
     group_id = context.job.data
     check_id = 2
@@ -116,14 +116,14 @@ async def set_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=21,minute=27,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(2,),  
+            time= time(hour=21,minute=33,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(3,),  
             name=str(group_id),                   
             chat_id=group_id,
             data=group_id,          
             )  
         application.job_queue.run_daily(                        
-            check_1,            
+            monday_remender,            
             time= time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(1,),  
             name=str(group_id),                   
@@ -131,7 +131,7 @@ async def set_timer(application:Application):
             data=group_id,   
             )
         application.job_queue.run_daily(                        
-            check_2,            
+            thursday_remender,            
             time= time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(4,),  
             name=str(group_id),                   
