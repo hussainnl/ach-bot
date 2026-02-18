@@ -46,7 +46,6 @@ app.add_handler(CommandHandler('state', state))
 app.add_handler(MessageHandler(filters.ChatType.GROUPS & filters.StatusUpdate.NEW_CHAT_MEMBERS, new_user))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, monitoring_topic))
 app.add_handler(CallbackQueryHandler(button_handler))
-app.add_handler(CommandHandler('set_timer', set_timer))
 
 
 app.run_polling()

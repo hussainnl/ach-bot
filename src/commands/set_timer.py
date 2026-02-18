@@ -72,8 +72,8 @@ async def bot_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=23,minute=56,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(3,),  
+            time= time(minute=3,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(4,),  
             name=str(group_id),                   
             chat_id=group_id,
             data=group_id,          
