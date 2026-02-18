@@ -1,22 +1,10 @@
 # secrets
 .env
 *.env
+credentials.json
+token.json
+
+# unwanted files
 __pycache__
 commands\__pycache__
 database/__pycache__
-venv
-# not necessary file
-test.py 
-ssssssss.py
-
-#the data base
-user_bot.db
-
-# not necessary file
-testx.ipynb
-
-# not necessary file
-session_name.session
-
-credentials.json
-token.json
