@@ -2,6 +2,5 @@ google_api_python_client==2.179.0
 google_auth_oauthlib==1.2.2
 protobuf==6.32.1
 python-telegram-bot==22.4
-python-telegram-bot[webhooks]==22.4
 APScheduler==3.11.0
 pymysql
