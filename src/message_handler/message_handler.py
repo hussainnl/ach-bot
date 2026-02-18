@@ -1,6 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
-from check_ach import CheckAchievement
+from message_handler.messages import Messages as msg
 from doc_register import doc_register
 from databases.mysql.user_table import User
 from databases.mysql.group_table import Group
@@ -41,13 +41,6 @@ async def new_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     with User() as Ur:
         Ur.add_user(group_id,user_id, username)
 
-def set_the_message(points,user_scor) -> str :
-    message = (
-    f"تم تسجيل إنجازك بنجاح 🏆\n"
-    f"حصلت على {points} نقاط جديدة!🌟\n\n"
-     f"✨ إجمالي نقاطك الآن: {user_scor} ✨")
-    return message
-    
 
 async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,points) -> None:
     user_id = update.effective_user.id
@@ -56,15 +49,14 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
     separator = "\n___________________________________________\n"
     doc_message = text + separator
 
-    if CheckAchievement().check_achievement(update.message.text,points):
+    if msg().check_achievement(update.message.text,points):
         with User() as Ur:
             if  points < 70:
                 Ur.update_user_score(user_id, group_id, points)
                 user_scor = Ur.get_user_score(user_id, group_id)
 
                 doc_register(DOCUMENT_ID,doc_message )
-                
-                message = set_the_message(points,user_scor)
+                message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
 
             elif Ur.get_user_missed(user_id, group_id) > 0:
@@ -74,29 +66,21 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
 
                 doc_register(DOCUMENT_ID,doc_message )
 
-                message = set_the_message(points,user_scor)
+                message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
             else:
                 await update.message.reply_text(
-                    "⚠️ لقد سجّلت إنجازك هذا الأسبوع بالفعل.\n"
-                    "⏳ لا يمكن تسجيل أكثر من مرة في نفس الأسبوع."
+                    msg().ach_limmit_msg()
                 )
     elif points >= 70 :
         await update.message.reply_text(
-            "📝 تذكير مهم:\n\n"
-            "المكان ده مخصص فقط لتسجيل **الإنجازات الأسبوعية** ✅\n"
-            "عند إرسال الإنجاز لازم تحتوي الرسالة على:\n"
-            "🔹 كلمة *الأسبوعي* أو\n"
-            "🔹 كلمة *اسبوعي* لوحدها."
+            msg().weekly_warrning_msg()
         )
     else:
         await update.message.reply_text(
-            "📝 تذكير مهم:\n\n"
-            "المكان ده مخصص فقط لتسجيل *الإنجازات الدراسية* ✅\n"
-            "عند إرسال الإنجاز لازم تحتوي الرسالة على:\n"
-            "🔹 كلمة *الدراسي* أو\n"
-            "🔹 كلمة *مذاكرتي* لوحدها."
+            msg().study_warrning_msg()
         )
+        
 
 
 
