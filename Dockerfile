@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . . 
 
-RUN adduser --disabled-password --gecos '' bootuser && chown -R bootuser /ach_bot
-USER bootuser
+# RUN adduser --disabled-password --gecos '' bootuser && chown -R bootuser /ach_bot
+# USER bootuser      #to test
 
 CMD ["python", "src/main.py"]
