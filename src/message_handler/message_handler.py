@@ -1,7 +1,6 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from message_handler.messages import Messages as msg
-from doc_register import doc_register
 from databases.mysql.user_table import User
 from databases.mysql.group_table import Group
 from databases.mongodb.ach_report import AchReport as AR
@@ -9,7 +8,6 @@ import logging
 import os
 
 
-DOCUMENT_ID = os.getenv("DOCUMENT_ID")
 
 async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = update.effective_user.id
@@ -58,7 +56,6 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
                 user_scor = Ur.get_user_score(user_id, group_id)
 
                 AR().save_study_ach(user_id,group_id,group_name,text)
-                doc_register(DOCUMENT_ID,doc_message )
                 message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
 
@@ -67,7 +64,7 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
                 user_scor = Ur.get_user_score(user_id, group_id)
                 Ur.update_user_missed(user_id, group_id)
                 AR().save_weekly_ach(user_id,group_id,text)
-                doc_register(DOCUMENT_ID,doc_message )
+                
 
                 message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
