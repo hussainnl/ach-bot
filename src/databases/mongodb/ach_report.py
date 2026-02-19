@@ -18,7 +18,7 @@ class AchReport:
         """To save the user achievment study message for the weekly report"""
         database = self.db
         collection_name = self.get_current_collection_name()
-        if self.is_user_doc_exist(user_id,group_id) :
+        if self.is_user_doc_exist(user_id,group_id,collection_name) :
                 database[collection_name].update_one(
                 {"user_id" : user_id,
                 "group_id" : group_id,         
@@ -36,10 +36,10 @@ class AchReport:
             "timestamp": datetime.datetime.now(datetime.timezone.utc)
              })
           
-    def is_user_doc_exist(self,user_id,group_id) -> bool :
+    def is_user_doc_exist(self,user_id,group_id,collection_name) -> bool :
         """To check if the user document exist in the database or not"""
         database = self.db
-        doc = database[f"ach_messages{""}"].find_one({"user_id": user_id, "group_id": group_id})
+        doc = database[collection_name].find_one({"user_id": user_id, "group_id": group_id})
         return doc is not None
 
     def save_weekly_ach(self,user_id,group_id,text,score)-> None:
