@@ -1,4 +1,3 @@
-from arrow import now
 from telegram.ext import ContextTypes ,Application
 from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
@@ -78,7 +77,7 @@ async def bot_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=1,minute=28,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=1,minute=30,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(5,),  
             name=str(group_id),                   
             chat_id=group_id,
