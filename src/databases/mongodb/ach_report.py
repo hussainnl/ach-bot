@@ -70,8 +70,10 @@ class AchReport:
         {"$set": {"name": collection_name}},
         upsert=True
         )
+
     def get_current_collection_name(self) -> str:
         """To get the name of the current collection for the new weekly report"""
         database = self.db
         doc = database["current_collection"].find_one({"_id": "weekly_collection"})
+        logging.info(f"Current collection name: {doc['name']}")
         return doc["name"]
