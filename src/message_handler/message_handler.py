@@ -46,8 +46,6 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
     group_id = update.effective_chat.id
     group_name = update.effective_chat.title
     text = update.message.text
-    separator = "\n___________________________________________\n"
-    doc_message = text + separator
 
     if msg().check_achievement(update.message.text,points):
         with User() as Ur:

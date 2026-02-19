@@ -1,6 +1,7 @@
 from telegram.ext import ContextTypes ,Application
 from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
+from databases.mongodb.ach_report import AchReport as AR
 from message_handler.messages import Messages as msg
 from datetime import datetime, timedelta,time
 from zoneinfo import ZoneInfo
@@ -9,6 +10,9 @@ from message_handler.message_handler import remender_sender
 
 async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
+    datetime_now = datetime.now(ZoneInfo("Africa/Cairo")).strftime("%Y-%m-%d")
+    collection_name = f"weekly_report{datetime_now}"
+    AR().create_new_collection(collection_name)
     await ban_users(context,group_id)
     await weekly_remender(context)
 
@@ -72,8 +76,8 @@ async def bot_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(minute=3,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(4,),  
+            time= time(minute=57,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(5,),  
             name=str(group_id),                   
             chat_id=group_id,
             data=group_id,          
