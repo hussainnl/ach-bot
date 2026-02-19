@@ -19,7 +19,7 @@ class AchReport:
         database = self.db
         collection_name = self.get_current_collection_name()
         if self.is_user_doc_exist(user_id,group_id) :
-                database[f"ach_messages{collection_name}"].update_one(
+                database[collection_name].update_one(
                 {"user_id" : user_id,
                 "group_id" : group_id,         
                 },
