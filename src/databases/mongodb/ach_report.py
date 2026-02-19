@@ -60,12 +60,13 @@ class AchReport:
         """To save the name of the current collection for the new weekly report"""
         database = self.db
         database["current_collection"].update_one(
-        {"name": "current_collection"},
-        {"$set": {"name": collection_name}},
+        {"name": "collection_name",
+         "_id": "weekly_collection"},
+        {"$set": {"_id": collection_name}},
         upsert=True
         )
     def get_current_collection_name(self) -> str:
         """To get the name of the current collection for the new weekly report"""
         database = self.db
-        doc = database["current_collection"].find_one({})
+        doc = database["current_collection"].find_one({"_id": "weekly_collection"})
         return doc["name"]
