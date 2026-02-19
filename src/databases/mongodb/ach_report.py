@@ -22,7 +22,7 @@ class AchReport:
         "weekly_ach": self.weekly_ach,
         "timestamp": datetime.datetime.now(datetime.timezone.utc)
          },
-         {"$push": {"messages": text}},
+         {"$push": {"study_ach": text}},
          upsert=True
         )  
     def save_weekly_ach(self,user_id,group_id,text):
