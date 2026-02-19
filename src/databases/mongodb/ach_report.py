@@ -7,10 +7,10 @@ class AchReport:
     def __init__(self):
         self.config = Config().data
         self.client = MongoClient(**self.config)
-        self.db = self.client[self.client[db_name]]
+        self.db = self.client[db_name]
         self.weekly_ach = "لم تقم بإنجازات الأسبوعية في هذا الجروب"
 
-        
+
     def save_study_ach(self,user_id,group_id,group_name,text):
         """To save the user achievment study message for the weekly report"""
         database = self.db
