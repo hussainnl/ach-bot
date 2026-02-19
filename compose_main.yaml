@@ -6,18 +6,9 @@ services:
     container_name: ach_bot
     restart: unless-stopped
     env_file:
-      - /home/marshall/ash_bot/.env
-    secrets:
-      - bot_credentials
-    volumes:
-      - /home/marshall/ash_bot/user_bot.db:/ach_bot/user_bot.db
-      - /home/marshall/ash_bot/token.json:/ach_bot/token.json
+      - /home/marshall/ash_bot_config/main.env
     networks:
       - nawah
-      
-secrets:
-  bot_credentials:
-    file: /home/marshall/ash_bot/credentials.json
 
 networks:
   nawah:

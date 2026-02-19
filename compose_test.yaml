@@ -5,19 +5,10 @@ services:
     build: .
     container_name: ach_test
     env_file:
-      - /home/marshall/ach_test/.env
-    secrets:
-      - bot_credentials
-    volumes:
-      - /home/marshall/ach_test/user_bot.db:/ach_bot/user_bot.db
-      - /home/marshall/ach_test/token.json:/ach_bot/token.json
+      - /home/marshall/ash_bot_config/test.env
     networks:
       - nawah
       
-secrets:
-  bot_credentials:
-    file: /home/marshall/ach_test/credentials.json
-
 networks:
   nawah:
     external: true 
