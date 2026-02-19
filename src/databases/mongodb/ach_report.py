@@ -67,5 +67,5 @@ class AchReport:
     def get_current_collection_name(self) -> str:
         """To get the name of the current collection for the new weekly report"""
         database = self.db
-        doc = database["current_collection"].find_one({"name": "current_collection"})
+        doc = database["current_collection"].find_one({})
         return doc["name"]
