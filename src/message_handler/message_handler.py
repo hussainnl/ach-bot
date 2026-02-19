@@ -55,7 +55,7 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
                 Ur.update_user_score(user_id, group_id, points)
                 user_scor = Ur.get_user_score(user_id, group_id)
 
-                AR().save_study_ach(user_id,group_id,group_name,text)
+                AR().save_study_ach(user_id,group_id,group_name,text,points)
                 message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
 
@@ -63,7 +63,7 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
                 Ur.update_user_score(user_id, group_id, points)
                 user_scor = Ur.get_user_score(user_id, group_id)
                 Ur.update_user_missed(user_id, group_id)
-                AR().save_weekly_ach(user_id,group_id,text)
+                AR().save_weekly_ach(user_id,group_id,text,points)
                 
 
                 message = msg().confirm_ach_msg(points,user_scor)
@@ -107,3 +107,5 @@ async def remender_sender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id)
     text= message,
     parse_mode="HTML",message_thread_id=notification_topic_id)
     await context.bot.pin_chat_message(group_id,msg.id)
+
+# def get_weekly_report(user_id,group_id):
