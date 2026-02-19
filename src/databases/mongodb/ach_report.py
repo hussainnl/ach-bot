@@ -14,16 +14,16 @@ class AchReport:
     def save_study_ach(self,user_id,group_id,group_name,text,score) -> None:
         """To save the user achievment study message for the weekly report"""
         database = self.db
-
+        collection_name = self.get_current_collection_name()
         if self.is_user_doc_exist(user_id,group_id) :
-                database[f"ach_messages{""}"].update_one(
+                database[f"ach_messages{collection_name}"].update_one(
                 {"user_id" : user_id,
                 "group_id" : group_id,         
                 },
                 {"$push": {"study_ach": text},"$inc":  {"user_score": score}}
                 )
         else :
-            database[f"ach_messages{""}"].insert_one(
+            database[collection_name].insert_one(
             {"user_id" : user_id,
             "group_id" : group_id,
             "group_name" : group_name,                
@@ -39,12 +39,33 @@ class AchReport:
         doc = database[f"ach_messages{""}"].find_one({"user_id": user_id, "group_id": group_id})
         return doc is not None
 
-    def save_weekly_ach(self,user_id,group_id,text)-> None:
+    def save_weekly_ach(self,user_id,group_id,text,score)-> None:
         """To save the user weekly ach message for the weekly report"""
         database = self.db
-        database[f"ach_messages{""}"].update_one(
+        collection_name = self.get_current_collection_name()
+        database[collection_name].update_one(
         {"user_id" : user_id,
         "group_id" : group_id,
          },
-         {"$set": {"weekly_ach": text}}
+         {"$set": {"weekly_ach": text},"$inc":{"user_score": score}}
         )
+
+    def create_new_collection(self,collection_name) -> None:
+        """To create a new collection in the database"""
+        database = self.db
+        database.create_collection(collection_name)
+        self.save_crunt_collection_name(collection_name)
+
+    def save_crunt_collection_name(self,collection_name) -> None:
+        """To save the name of the current collection for the new weekly report"""
+        database = self.db
+        database["current_collection"].update_one(
+        {"name": "current_collection"},
+        {"$set": {"name": collection_name}},
+        upsert=True
+        )
+    def get_current_collection_name(self) -> str:
+        """To get the name of the current collection for the new weekly report"""
+        database = self.db
+        doc = database["current_collection"].find_one({"name": "current_collection"})
+        return doc["name"]
