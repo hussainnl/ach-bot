@@ -34,7 +34,7 @@ class AchReport:
             "study_ach": [text],
             "weekly_ach": self.weekly_ach,
             "user_score": 0,
-            "timestamp": datetime.datetime.now(datetime.timezone.utc)
+            "timestamp": datetime.now(ZoneInfo("Africa/Cairo"))
              })
           
     def is_user_doc_exist(self,user_id,group_id) -> bool :
