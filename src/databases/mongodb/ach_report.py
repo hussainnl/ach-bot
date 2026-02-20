@@ -1,7 +1,8 @@
 from databases.mongodb.mongo_config import Config
 from pymongo import MongoClient
 import os
-import datetime
+from datetime import datetime
+from zoneinfo import ZoneInfo
 import logging
 
 db_name = os.getenv("MONGO_NAME")
@@ -18,7 +19,7 @@ class AchReport:
         """To save the user achievment study message for the weekly report"""
         database = self.db
         collection_name = self.get_current_collection_name()
-        if self.is_user_doc_exist(user_id,group_id,collection_name) :
+        if self.is_user_doc_exist(user_id,group_id) :
                 database[collection_name].update_one(
                 {"user_id" : user_id,
                 "group_id" : group_id,         
@@ -30,15 +31,16 @@ class AchReport:
             {"user_id" : user_id,
             "group_id" : group_id,
             "group_name" : group_name,                
-            "study_ach": [],
+            "study_ach": [text],
             "weekly_ach": self.weekly_ach,
             "user_score": 0,
             "timestamp": datetime.datetime.now(datetime.timezone.utc)
              })
           
-    def is_user_doc_exist(self,user_id,group_id,collection_name) -> bool :
+    def is_user_doc_exist(self,user_id,group_id) -> bool :
         """To check if the user document exist in the database or not"""
         database = self.db
+        collection_name = self.get_current_collection_name()
         doc = database[collection_name].find_one({"user_id": user_id, "group_id": group_id})
         return doc is not None
 
@@ -74,6 +76,15 @@ class AchReport:
     def get_current_collection_name(self) -> str:
         """To get the name of the current collection for the new weekly report"""
         database = self.db
+        
         doc = database["current_collection"].find_one({"_id": "weekly_collection"})
-        logging.info(f"Current collection name: {doc['name']}")
-        return doc["name"]
+        logging.info(f"doc['name']: {doc['name']}")
+        if doc["name"] == None :
+            now = datetime.now(ZoneInfo("Africa/Cairo"))
+            datetime_now = f"{now.year}-{now.month:02d}-{now.day:02d}"
+            collection_name = f"weekly_report:{datetime_now}"
+            logging.info(f"Current collection name: {collection_name}")
+            self.create_new_collection(collection_name)
+            return collection_name
+        else :
+            return doc["name"]

@@ -11,8 +11,8 @@ from message_handler.message_handler import remender_sender
 async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
     now = datetime.now(ZoneInfo("Africa/Cairo"))
-    datetime_now = f"{now.year}_{now.month:02d}_{now.day:02d}"
-    collection_name = f"weekly_report_{datetime_now}"
+    datetime_now = f"{now.year}-{now.month:02d}-{now.day:02d}"
+    collection_name = f"weekly_report:{datetime_now}"
     AR().create_new_collection(collection_name)
     await ban_users(context,group_id)
     await weekly_remender(context)
