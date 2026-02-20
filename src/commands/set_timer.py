@@ -46,6 +46,7 @@ async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
     """To send remender notification in user's inbox """
     with User() as Ur :
         subs = Ur.get_subscription_users()
+        logging.info(f"subs : {subs}")
         missed_users_id = Ur.get_missed_users(group_id)
 
     message = msg().user_remender_msg(check_id)
@@ -80,7 +81,7 @@ async def bot_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=23,minute=51,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=23,minute=54,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(5,),  
             name=str(group_id),                   
             chat_id=group_id,
