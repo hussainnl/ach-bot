@@ -18,7 +18,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
         with User() as Ur :
             Ur.update_user_subscription(user_id, int(group_id),1)
 
-        await update.message.reply_text("✅ تم ربطك بالجروب بنجاح!")
+        await update.message.reply_text("👋 أهلاً بيك في البوت!")
     except:
 
         with User() as Ur:
