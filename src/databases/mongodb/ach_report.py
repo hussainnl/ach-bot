@@ -76,10 +76,10 @@ class AchReport:
     def get_current_collection_name(self) -> str:
         """To get the name of the current collection for the new weekly report"""
         database = self.db
-        
-        doc = database["current_collection"].find_one({"_id": "weekly_collection"})
-        
-        if doc["name"] == None :
+        try:
+            doc = database["current_collection"].find_one({"_id": "weekly_collection"})
+            return doc["name"]
+        except:
             logging.info(f"doc['name']: NoneType")
             now = datetime.now(ZoneInfo("Africa/Cairo"))
             datetime_now = f"{now.year}-{now.month:02d}-{now.day:02d}"
@@ -87,5 +87,5 @@ class AchReport:
             logging.info(f"Current collection name: {collection_name}")
             self.create_new_collection(collection_name)
             return collection_name
-        else :
-            return doc["name"]
+
+           
