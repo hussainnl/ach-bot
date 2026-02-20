@@ -163,10 +163,10 @@ class User :
             """, (sub_state, user_id, group_id))
             self.con.commit()
 
-    def get_subscription_users(self):
+    def get_subscription_users(self,group_id):
         """To get subscription users"""
         with self.con.cursor() as cur:
-            cur.execute("SELECT user_id FROM user_info WHERE is_subscribed = 1")
+            cur.execute("SELECT user_id FROM user_info WHERE is_subscribed = 1 WHERE group_id = %s",(group_id,))
             subscription_users =[ id[0] for id in cur.fetchall()]
             return subscription_users
         
