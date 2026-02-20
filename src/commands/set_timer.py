@@ -51,7 +51,7 @@ async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
 
     message = msg().user_remender_msg(check_id)
     if check_id == 0 :
-        for sub in subs :
+        for sub in range(len(subs)):
             user_id = subs[sub]
             user_report = prepare_weekly_report(user_id,group_id)
             await context.bot.send_message(user_id,f"{message}\n {user_report}")
@@ -81,8 +81,8 @@ async def bot_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=23,minute=58,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(5,),  
+            time= time(minute=16,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(6,),  
             name=str(group_id),                   
             chat_id=group_id,
             data=group_id,          
