@@ -166,7 +166,7 @@ class User :
     def get_subscription_users(self,group_id):
         """To get subscription users"""
         with self.con.cursor() as cur:
-            cur.execute("SELECT user_id FROM user_info WHERE is_subscribed = 1 WHERE group_id = %s",(group_id,))
+            cur.execute("SELECT user_id FROM user_info WHERE is_subscribed = 1 AND group_id = %s",(group_id,))
             subscription_users =[ id[0] for id in cur.fetchall()]
             return subscription_users
         
