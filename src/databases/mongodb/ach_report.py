@@ -78,8 +78,9 @@ class AchReport:
         database = self.db
         
         doc = database["current_collection"].find_one({"_id": "weekly_collection"})
-        logging.info(f"doc['name']: {doc['name']}")
+        
         if doc["name"] == None :
+            logging.info(f"doc['name']: NoneType")
             now = datetime.now(ZoneInfo("Africa/Cairo"))
             datetime_now = f"{now.year}-{now.month:02d}-{now.day:02d}"
             collection_name = f"weekly_report:{datetime_now}"
