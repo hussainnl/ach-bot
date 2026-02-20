@@ -11,15 +11,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
         ], ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     user_id = update.effective_user.id
-
-    if args and args[0].startswith("join_"):
+    try:
+    
         group_id = args[0].split("_", 1)[1]  # هنا بجيب group_id من اللينك
-        logging.info(type(group_id))
+        logging.info(f"group_id:{group_id}")
         with User() as Ur :
             Ur.update_user_subscription(user_id, int(group_id),1)
 
         await update.message.reply_text("✅ تم ربطك بالجروب بنجاح!")
-    else:
+    except:
 
         with User() as Ur:
             user_groups = Ur.is_user_a_member(user_id)
