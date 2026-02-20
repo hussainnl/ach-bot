@@ -156,7 +156,6 @@ class User :
     def update_user_subscription(self, user_id, group_id,sub_state):
         """To update the user subscription"""
         with self.con.cursor() as cur:
-            sub_state = 0
             cur.execute("""
             UPDATE user_info
             SET is_subscribed = %s
