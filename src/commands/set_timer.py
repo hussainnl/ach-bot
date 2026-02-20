@@ -3,6 +3,7 @@ from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
 from databases.mongodb.ach_report import AchReport as AR
 from message_handler.messages import Messages as msg
+from message_handler.message_handler import prepare_weekly_report
 from datetime import datetime, timedelta,time
 from zoneinfo import ZoneInfo
 import logging
@@ -50,7 +51,8 @@ async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
     if check_id == 0 :
         for sub in subs :
             user_id = subs[sub][0] 
-            await context.bot.send_message(user_id,message)
+            user_report = prepare_weekly_report(user_id,group_id)
+            await context.bot.send_message(user_id,f"{message}\n {user_report}")
     else:
         for user_id in missed_users_id :
             await context.bot.send_message(user_id,message)
@@ -77,7 +79,7 @@ async def bot_timer(application:Application):
     for group_id in  group_ids :           
         application.job_queue.run_daily(                        
             weekly_check,            
-            time= time(hour=1,minute=30,tzinfo=ZoneInfo("Africa/Cairo")),  
+            time= time(hour=23,minute=42,tzinfo=ZoneInfo("Africa/Cairo")),  
             days=(5,),  
             name=str(group_id),                   
             chat_id=group_id,
