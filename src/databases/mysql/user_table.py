@@ -63,7 +63,7 @@ class User :
     def is_user_a_member(self,user_id):
         """To check the userid if it in our groups for start command"""
         with self.con.cursor() as cur:
-            cur.execute("SELECT group_id FROM user_info WHERE  user_id = ? ",(user_id,))
+            cur.execute("SELECT group_id FROM user_info WHERE  user_id = %s ",(user_id,))
             user_groups = []
             for id in cur.fetchall():
                 id[0]    
