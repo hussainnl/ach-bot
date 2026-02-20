@@ -33,7 +33,7 @@ class AchReport:
             "group_name" : group_name,                
             "study_ach": [text],
             "weekly_ach": self.weekly_ach,
-            "user_score": 0,
+            "user_score": score,
             "timestamp": datetime.now(ZoneInfo("Africa/Cairo"))
              })
           

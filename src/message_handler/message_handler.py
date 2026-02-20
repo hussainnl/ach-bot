@@ -52,7 +52,7 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
             if  points < 70:
                 Ur.update_user_score(user_id, group_id, points)
                 user_scor = Ur.get_user_score(user_id, group_id)
-
+                text = text[17:]
                 AR().save_study_ach(user_id,group_id,group_name,text,points)
                 message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
