@@ -12,9 +12,7 @@ async def weekly_report(update: Update, context: ContextTypes.DEFAULT_TYPE)-> No
         user_groups = Ur.is_user_a_member(user_id)
     
     try: 
-        if msg_group_id == None:
-            raise Exception("This command should be used in the private chat between the user and the bot")
-        else:
+        if user_id == msg_group_id:
             for group_id in user_groups:
                 try:
                     with User() as Ur :
@@ -22,6 +20,9 @@ async def weekly_report(update: Update, context: ContextTypes.DEFAULT_TYPE)-> No
                     await context.bot.send_message(user_id,user_report)
                 except:
                     continue
+        else:
+            raise Exception("This command should be used in the private chat between the user and the bot")
+        
     except Exception as e:
         logging.info(f"Error : {e}")
         await update.message.reply_text("لازم الأمر يكون في المحادثة بين وبين البوت وعندك إنجازات خلال الأسبوع ده ب الفعل")
