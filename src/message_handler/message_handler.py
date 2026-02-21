@@ -52,8 +52,9 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
             if  points < 70:
                 Ur.update_user_score(user_id, group_id, points)
                 user_scor = Ur.get_user_score(user_id, group_id)
-                text = text[17:]
-                AR().save_study_ach(user_id,group_id,group_name,text,points)
+                parts = text.split(':', 1)
+                achievement = parts[1].strip()
+                AR().save_study_ach(user_id,group_id,group_name,achievement,points)
                 message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
 
@@ -124,5 +125,5 @@ def prepare_study_achs(study_ach_list):
     achs_study = ""
     for study_ach in study_ach_list :
         ach_num = ach_num +1
-        achs_study =  achs_study + f"{ach_num} {study_ach}  \n"
+        achs_study =  achs_study + f"{ach_num}{study_ach}  \n"
     return achs_study
