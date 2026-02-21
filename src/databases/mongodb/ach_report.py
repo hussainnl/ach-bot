@@ -12,7 +12,7 @@ class AchReport:
         self.config = Config().data
         self.client = MongoClient(**self.config)
         self.db = self.client[db_name]
-        self.weekly_ach = "لم تقم بإنجازات الأسبوعية في هذا الجروب"
+        self.weekly_ach = "لم تقم بإنجاز أسبوعي هذا الأسبوع في هذا الجروب"
 
 
     def get_user_raw_report(self,user_id,group_id) -> str:
