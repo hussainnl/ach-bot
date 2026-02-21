@@ -132,6 +132,24 @@ class User :
                 """, (new_missed,user_id,group_id))
                 self.con.commit()
 
+    def get_ach_week_state(self,user_id,group_id):
+        """To get the user achievement week state for the limit of the weekly achievements"""
+        with self.con.cursor() as cur:
+            cur.execute("SELECT ach_week FROM user_info WHERE user_id = %s AND group_id = %s", (user_id,group_id))       
+            ach_week = cur.fetchone()[0]
+            return ach_week
+
+    def update_user_ach_week(self,user_id,group_id):
+        """To update the user achievement week state"""
+        with self.con.cursor() as cur:
+            new_ach_week = 1
+            cur.execute("""
+            UPDATE user_info
+            SET ach_week = %s
+            WHERE user_id = %s AND group_id = %s
+            """, (new_ach_week, user_id, group_id))
+            self.con.commit()    
+
     def get_users_list(self,group_id):
         """To get users list"""
         with self.con.cursor() as cur:
