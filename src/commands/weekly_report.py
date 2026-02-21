@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 from databases.mysql.user_table import User
-from message_handler.message_handler import prepare_weekly_report
+from message_handler.weekly_report import prepare_weekly_report
 import logging
 
 async def weekly_report(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None: 

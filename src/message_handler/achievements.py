@@ -4,8 +4,9 @@ from message_handler.messages import Messages as msg
 from databases.mysql.user_table import User
 from databases.mysql.group_table import Group
 from databases.mongodb.ach_report import AchReport as AR
-import logging
-import os
+
+
+
 
 
 
@@ -31,14 +32,6 @@ async def monitoring_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         await submit_achievement(update, context,points)
 
 
-async def new_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_id = update.effective_user.id
-    user_full_name = "--" + update.effective_user.full_name
-    username = update.effective_user.username if  update.effective_user.username else  user_full_name
-    group_id = update.effective_chat.id
-
-    with User() as Ur:
-        Ur.add_user(group_id,user_id, username)
 
 
 async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,points) -> None:
@@ -80,50 +73,3 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
             msg().study_warrning_msg()
         )
         
-
-async def timer_message(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
-    """To prepare the remender message"""
-    app_info = await context.bot.get_me()
-    sub_msg = msg().sub_msg(group_id,app_info.username)
-    group_remender_msg = msg().group_remender_msg(check_id)
-    with Group() as Gp :
-        rules_topic_id = Gp.get_rules_topic_id(group_id)
-    rules_reminder_msg = msg().rules_reminder_msg(group_id,rules_topic_id)
-
-    message = group_remender_msg + sub_msg + rules_reminder_msg
-
-    return message
-
-async def remender_sender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
-    """To send the remender message in the group notification topic"""
-
-    with Group() as Gp :
-        notification_topic_id = Gp.get_notification_topic_id(group_id)
-
-    message = await timer_message(context,group_id,check_id)
-    msg = await context.bot.send_message(
-    group_id,
-    text= message,
-    parse_mode="HTML",message_thread_id=notification_topic_id)
-    await context.bot.pin_chat_message(group_id,msg.id)
-
-def prepare_weekly_report(user_id,group_id):
-    """To prepare the user weekly report"""
-    raw_report = AR().get_user_raw_report(user_id,group_id)
-    group_name = f"تقريرك الأسبوعي في جروب {raw_report['group_name']}:"
-    user_score =f"عدد نقاط  :{raw_report['user_score']}"
-    study_ach_list = raw_report['study_ach']
-    weekly_ach = raw_report['weekly_ach']
-    study_achs = f"الإنجازات الدراسي :\n{prepare_study_achs(study_ach_list)}"
-    weekly_report = f"""{group_name}\n{user_score}\n{study_achs}\n{weekly_ach}
-    """
-    return weekly_report
-
-def prepare_study_achs(study_ach_list):
-    """To prepare the user study achievements in a good format"""
-    ach_num = 0
-    achs_study = ""
-    for study_ach in study_ach_list :
-        ach_num = ach_num +1
-        achs_study =  achs_study + f"{ach_num}.{study_ach}  \n"
-    return achs_study

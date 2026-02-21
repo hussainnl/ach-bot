@@ -3,11 +3,11 @@ from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
 from databases.mongodb.mongo_utils import DatabaseHandler as DH
 from message_handler.messages import Messages as msg
-from message_handler.message_handler import prepare_weekly_report
+from message_handler.weekly_report import prepare_weekly_report
 from datetime import datetime, timedelta,time
 from zoneinfo import ZoneInfo
 import logging
-from message_handler.message_handler import remender_sender
+from message_handler.timer import remender_sender
 
 async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
