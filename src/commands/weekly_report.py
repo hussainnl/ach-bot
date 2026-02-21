@@ -6,6 +6,7 @@ import logging
 
 async def weekly_report(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:    
     msg_group_id = update.effective_chat.id
+    logging.info(f"weekly_report called in group {msg_group_id}")
     user_id = update.effective_user.id
     with User() as Ur:
         user_groups = Ur.is_user_a_member(user_id)
