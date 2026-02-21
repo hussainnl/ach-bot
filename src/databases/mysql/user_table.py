@@ -143,10 +143,10 @@ class User :
         """To get users to be banned"""
         with self.con.cursor() as cur:
             cur.execute("""SELECT user_id FROM user_info WHERE group_id = %s AND 
-                          mode = 1 AND missed > 2""", (group_id,))
+                          mode = 1 AND missed > 1""", (group_id,))
             banned_ids_1 =[ id[0] for id in cur.fetchall()]
             cur.execute("""SELECT user_id FROM user_info WHERE group_id = %s AND 
-                        missed > 4""", (group_id,))
+                        missed > 2""", (group_id,))
             banned_ids_2 =[ id[0] for id in cur.fetchall()]
             banned_ids = banned_ids_1 + banned_ids_2
             
