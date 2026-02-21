@@ -13,6 +13,7 @@ from commands.set_timer import bot_timer
 from commands.reset_missed import reset_missed
 from commands.start import start 
 from commands.chanage_mode import chanage_mode , button_handler
+from commands.weekly_report import weekly_report
 
 import logging
 import os
@@ -43,6 +44,7 @@ app.add_handler(CommandHandler('set_rules_topic', set_rules_topic))
 app.add_handler(CommandHandler('restart_missed', reset_missed))
 app.add_handler(CommandHandler('chanage_mode', chanage_mode))
 app.add_handler(CommandHandler('state', state))
+app.add_handler(CommandHandler('weekly_report', weekly_report))
 app.add_handler(MessageHandler(filters.ChatType.GROUPS & filters.StatusUpdate.NEW_CHAT_MEMBERS, new_user))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, monitoring_topic))
 app.add_handler(CallbackQueryHandler(button_handler))

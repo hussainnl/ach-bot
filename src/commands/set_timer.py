@@ -1,7 +1,6 @@
 from telegram.ext import ContextTypes ,Application
 from databases.mysql.group_table import Group
 from databases.mysql.user_table import User
-from databases.mongodb.ach_report import AchReport as AR
 from databases.mongodb.mongo_utils import DatabaseHandler as DH
 from message_handler.messages import Messages as msg
 from message_handler.message_handler import prepare_weekly_report
