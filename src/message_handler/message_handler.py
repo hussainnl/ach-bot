@@ -125,5 +125,5 @@ def prepare_study_achs(study_ach_list):
     achs_study = ""
     for study_ach in study_ach_list :
         ach_num = ach_num +1
-        achs_study =  achs_study + f"{ach_num}{study_ach}  \n"
+        achs_study =  achs_study + f"{ach_num}.{study_ach}  \n"
     return achs_study
