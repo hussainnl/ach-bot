@@ -7,14 +7,16 @@ from commands.set_group import set_group
 from commands.set_monitoring_topics import study_monitoring_topic , weekly_monitoring_topic
 from commands.set_notification_topic import set_notification_topic
 from commands.set_rules_topic import set_rules_topic
-from message_handler.achievements import monitoring_topic 
-from message_handler.new_user import new_user
 from commands.state import state
-from commands.set_timer import bot_timer
 from commands.reset_missed import reset_missed
 from commands.start import start 
 from commands.chanage_mode import chanage_mode , button_handler
 from commands.weekly_report import weekly_report
+
+from timer.timer_handler import bot_timer
+
+from message_handler.achievements import monitoring_topic 
+from message_handler.new_user import new_user
 
 import logging
 import os
