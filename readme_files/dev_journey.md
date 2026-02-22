@@ -39,3 +39,9 @@
 ك مثال :
 ###  متابعة تسجيل الإنجازات الأسبوعية والدراسية للمستخدم : 
 <img width="1042" alt="data flow diagram" src="/resource/data_flow_1.jpg">
+
+
+## بناء معمارية النظام
+في المرحلة دي بفكر في الأجزاء الكبيرة الخاص ب النظام وطريقة اتصالهم ببعض بعدين بنرسم مخطط يعكس الكلام ده
+ك مثال :
+<img width="1042" alt="system architect diagram" src="/resource/system_architect.png">
