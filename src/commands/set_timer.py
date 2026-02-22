@@ -66,7 +66,8 @@ async def monday_remender(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
     check_id = 1
     await user_remender(context,group_id,check_id)
-     
+    await remender_sender(context,group_id,check_id)
+
 async def thursday_remender(context: ContextTypes.DEFAULT_TYPE):
     """To notificat the members of the groups with missed point to shara there acheivements in Thursday """
     group_id = context.job.data
@@ -91,8 +92,8 @@ async def bot_timer(application:Application):
             )  
         application.job_queue.run_daily(                        
             monday_remender,            
-            time= time(hour=20,tzinfo=ZoneInfo("Africa/Cairo")),  
-            days=(1,),  
+            time= time(hour=2,minute=40,tzinfo=ZoneInfo("Africa/Cairo")),  
+            days=(0,),  
             name=str(group_id),                   
             chat_id=group_id,          
             data=group_id,   

@@ -6,7 +6,7 @@ from databases.mysql.group_table import Group
 async def timer_message(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
     """To prepare the remender message"""
     app_info = await context.bot.get_me()
-    sub_msg = msg().sub_msg(group_id,app_info.username)
+    sub_msg = msg().sub_msg(app_info.username)
     group_remender_msg = msg().group_remender_msg(check_id)
     with Group() as Gp :
         rules_topic_id = Gp.get_rules_topic_id(group_id)
