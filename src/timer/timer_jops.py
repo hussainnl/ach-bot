@@ -49,7 +49,7 @@ async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
         subs = Ur.get_subscription_users(group_id)
         logging.info(f"subs : {subs}")
         missed_users_id = Ur.get_missed_users(group_id)
-    group_name = AR().get_group_name(group_id)
+    group_name = AR().get_group_name(user_id,group_id)
     message = msg().user_remender_msg(check_id,group_name)
     if check_id == 0 :
         for sub in range(len(subs)):
