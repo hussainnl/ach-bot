@@ -28,7 +28,14 @@ class AchReport:
         collection_name = DH().get_current_collection_name()
         user_study_achs = database[collection_name].find_one({"user_id": user_id, "group_id": group_id},{"study_ach": 1, "_id": 0})
         return user_study_achs["study_ach"] 
-           
+    
+    def get_group_name(self,user_id,group_id) -> str:
+        """To get the group name for the weekly report"""
+        database = self.db
+        collection_name = DH().get_current_collection_name()
+        group_name = database[collection_name].find_one({"user_id": user_id, "group_id": group_id},{"group_name": 1, "_id": 0})
+        return group_name["group_name"]
+
     def save_study_ach(self,user_id,group_id,group_name,text,score) -> None:
         """To save the user achievment study message for the weekly report"""
         database = self.db
