@@ -52,6 +52,13 @@ class Group :
             cur.execute("SELECT group_id FROM group_info")
             groups_ids = [ id[0] for id in cur.fetchall()]
             return groups_ids
+    def get_group_name(self,group_id):
+        """To get the group name by the group id"""
+        with self.con.cursor() as cur:
+            cur.execute("SELECT group_name FROM group_info WHERE group_id = %s", (group_id,))       
+            group_name = cur.fetchone()[0]
+            return group_name
+
 
     def update_study_topic_id(self,study_topic_id,group_id):
         """To update the study topic id"""

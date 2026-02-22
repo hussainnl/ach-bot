@@ -1,5 +1,6 @@
 from telegram.ext import ContextTypes 
 from databases.mysql.user_table import User
+from databases.mysql.group_table import Group
 from databases.mongodb.mongo_utils import DatabaseHandler as DH
 from databases.mongodb.ach_report import AchReport as AR
 from message_handler.messages import Messages as msg
@@ -45,11 +46,11 @@ async def weekly_remender(context : ContextTypes.DEFAULT_TYPE):
 
 async def user_remender(context : ContextTypes.DEFAULT_TYPE,group_id,check_id):
     """To send remender notification in user's inbox """
-    with User() as Ur :
+    with User() as Ur , Group() as Gp:
         subs = Ur.get_subscription_users(group_id)
         logging.info(f"subs : {subs}")
         missed_users_id = Ur.get_missed_users(group_id)
-    group_name = AR().get_group_name(group_id)
+        group_name = Gp.get_group_name(group_id)
     message = msg().user_remender_msg(check_id,group_name)
     if check_id == 0 :
         for sub in range(len(subs)):
