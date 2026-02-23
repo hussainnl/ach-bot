@@ -48,10 +48,10 @@ async def submit_achievement(update: Update, context: ContextTypes.DEFAULT_TYPE,
                 user_scor = Ur.get_user_score(user_id, group_id)
                 parts = text.split(':', 1)
                 achievement = parts[1].strip()
+                AR().save_study_ach(user_id,group_id,group_name,achievement,points)
                 user_study_achs = AR().get_user_study_achs(user_id,group_id)
                 if  len(user_study_achs) >=3:
-                     Ur.update_user_missed(user_id, group_id)
-                AR().save_study_ach(user_id,group_id,group_name,achievement,points)
+                     Ur.update_user_missed(user_id, group_id)               
                 message = msg().confirm_ach_msg(points,user_scor)
                 await update.message.reply_text(message)
 
