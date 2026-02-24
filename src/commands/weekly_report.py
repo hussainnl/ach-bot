@@ -18,7 +18,8 @@ async def weekly_report(update: Update, context: ContextTypes.DEFAULT_TYPE)-> No
                     with User() as Ur :
                         user_report = prepare_weekly_report(user_id,group_id)
                     await context.bot.send_message(user_id,user_report)
-                except:
+                except Exception as e:
+                    logging.info(f"Error sending weekly report to user {user_id} for group {group_id}: {e} ,report: {user_report}")
                     continue
     else:
         await update.message.reply_text("لازم الأمر يكون في المحادثة بين بين البوت وعندك إنجازات خلال الأسبوع ده ب الفعل")
