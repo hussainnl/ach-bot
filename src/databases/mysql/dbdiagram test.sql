@@ -44,8 +44,6 @@ CREATE TABLE IF NOT EXISTS user_info (
   DEFAULT 0,
   missed TINYINT(5)
   DEFAULT 1 ,
-  is_subscribed  TINYINT(1)
-  DEFAULT 0,
   mode TINYINT(1)
   DEFAULT 0,
   ach_week TINYINT(1) 
@@ -62,13 +60,19 @@ CREATE TABLE IF NOT EXISTS user_info (
 
 
 
--- Table message
-DROP TABLE IF EXISTS message;
-CREATE TABLE IF NOT EXISTS message (
-  msg_id TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  msg_name VARCHAR(32),
-  content VARCHAR(320)
-  );
+-- Table Subibscriptions user
+DROP TABLE IF EXISTS subs_user;
+CREATE TABLE IF NOT EXISTS subs_user (
+  user_id BIGINT NOT NULL ,
+  is_subscribed  TINYINT(1)
+  DEFAULT 0,
+  PRIMARY KEY (user_id),
+  CONSTRAINT fk_user_id
+    FOREIGN KEY (user_id)
+    REFERENCES user_info (user_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
 -- Table achievement
 DROP TABLE IF EXISTS achievement;
 CREATE TABLE IF NOT EXISTS achievement (

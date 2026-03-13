@@ -14,12 +14,12 @@ from message_handler.timer import remender_sender
 
 async def weekly_check(context: ContextTypes.DEFAULT_TYPE):
     group_id = context.job.data
+    await ban_users(context,group_id)
+    await weekly_remender(context)
     now = datetime.now(ZoneInfo("Africa/Cairo"))
     datetime_now = f"{now.year}-{now.month:02d}-{now.day:02d}"
     collection_name = f"weekly_report:{datetime_now}"
     DH().create_new_collection(collection_name)
-    await ban_users(context,group_id)
-    await weekly_remender(context)
 
 async  def ban_users(context: ContextTypes.DEFAULT_TYPE,group_id):
     """To ban the users who didn't share their achievements in the week """

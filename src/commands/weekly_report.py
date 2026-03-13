@@ -19,6 +19,7 @@ async def weekly_report(update: Update, context: ContextTypes.DEFAULT_TYPE)-> No
                         user_report = prepare_weekly_report(user_id,group_id)
                     await context.bot.send_message(user_id,user_report)
                 except:
+                    await update.message.reply_text("لم يتم العثور على إنجازات لك في الأسبوع الحالي")
                     continue
     else:
         await update.message.reply_text("لازم الأمر يكون في المحادثة بين بين البوت وعندك إنجازات خلال الأسبوع ده ب الفعل")
