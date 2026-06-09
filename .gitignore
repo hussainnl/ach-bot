@@ -5,6 +5,7 @@ credentials.json
 token.json
 
 # unwanted files
+.venv
 __pycache__
 commands\__pycache__
 database/__pycache__
