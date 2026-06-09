@@ -8,8 +8,7 @@ services:
       - /home/marshall/ash_bot_config/test.env
     networks:
       - nawah
-      
+
 networks:
   nawah:
-    external: true 
-      
+    external: true
